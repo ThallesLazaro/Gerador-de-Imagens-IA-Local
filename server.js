@@ -396,11 +396,26 @@ function completionMarkerMatches(rel, expectedUrl) {
   } catch { return false; }
 }
 function validPeExecutable(abs) {
+  // Nao imponha um tamanho minimo alto: executaveis pequenos podem delegar a
+  // implementacao principal para DLLs. Valide a estrutura PE de fato.
+  let fd = null;
   try {
-    if (!abs || !fs.existsSync(abs) || fs.statSync(abs).size < 65536) return false;
-    const p = readPrefix(abs, 2);
-    return !!p && p[0] === 0x4d && p[1] === 0x5a;
+    if (!abs || !fs.existsSync(abs)) return false;
+    const stat = fs.statSync(abs);
+    if (!stat.isFile() || stat.size < 68) return false;
+
+    fd = fs.openSync(abs, 'r');
+    const dos = Buffer.alloc(64);
+    if (fs.readSync(fd, dos, 0, 64, 0) !== 64) return false;
+    if (dos[0] !== 0x4d || dos[1] !== 0x5a) return false;
+
+    const peOffset = dos.readInt32LE(0x3c);
+    if (peOffset < 64 || peOffset > stat.size - 4) return false;
+    const sig = Buffer.alloc(4);
+    if (fs.readSync(fd, sig, 0, 4, peOffset) !== 4) return false;
+    return sig[0] === 0x50 && sig[1] === 0x45 && sig[2] === 0x00 && sig[3] === 0x00;
   } catch { return false; }
+  finally { if (fd !== null) { try { fs.closeSync(fd); } catch {} } }
 }
 function findRec(dir, name, depth = 0, skipDirs = null) {
   if (depth > 8 || !fs.existsSync(dir)) return null;
@@ -413,6 +428,22 @@ function findRec(dir, name, depth = 0, skipDirs = null) {
   for (const ent of entries) {
     if (!ent.isDirectory() || skipDirs?.has(ent.name.toLowerCase())) continue;
     const found = findRec(path.join(dir, ent.name), name, depth + 1, skipDirs);
+    if (found) return found;
+  }
+  return null;
+}
+function findValidRec(dir, name, validator, depth = 0, skipDirs = null) {
+  if (depth > 8 || !fs.existsSync(dir)) return null;
+  let entries = [];
+  try { entries = fs.readdirSync(dir, { withFileTypes: true }); } catch { return null; }
+  for (const ent of entries) {
+    if (!ent.isFile() || ent.name.toLowerCase() !== name.toLowerCase()) continue;
+    const full = path.join(dir, ent.name);
+    try { if (!validator || validator(full)) return full; } catch {}
+  }
+  for (const ent of entries) {
+    if (!ent.isDirectory() || skipDirs?.has(ent.name.toLowerCase())) continue;
+    const found = findValidRec(path.join(dir, ent.name), name, validator, depth + 1, skipDirs);
     if (found) return found;
   }
   return null;
@@ -442,8 +473,8 @@ function findRuntime(name) {
   }
   let found = null;
   for (const dir of runtimeHints[key] || []) {
-    const candidate = findRec(dir, name);
-    if (candidate && validPeExecutable(candidate)) { found = candidate; break; }
+    const candidate = findValidRec(dir, name, validPeExecutable);
+    if (candidate) { found = candidate; break; }
   }
   if (!found) {
     const candidate = findCmd(name);
@@ -452,8 +483,8 @@ function findRuntime(name) {
   if (!found) {
     // Compatibilidade com estruturas antigas sem atravessar ambientes Python gigantes.
     const skip = new Set(['video-python', 'site-packages', 'node_modules', '__pycache__', '.git']);
-    const candidate = findRec(path.join(ROOT, 'runtime'), name, 0, skip);
-    if (candidate && validPeExecutable(candidate)) found = candidate;
+    const candidate = findValidRec(path.join(ROOT, 'runtime'), name, validPeExecutable, 0, skip);
+    if (candidate) found = candidate;
   }
   runtimeCache.set(key, { path: found, at: now });
   return found;
@@ -823,7 +854,7 @@ async function ensureChatServer() {
   throw new Error('O modelo de chat não ficou pronto em até 3 minutos. Abra Recursos IA > Chat e confira o log do runtime.');
 }
 
-app.get('/api/ping', (req, res) => res.json({ ok: true, app: 'GeradorImagensIALocal', version: '2.7.9' }));
+app.get('/api/ping', (req, res) => res.json({ ok: true, app: 'GeradorImagensIALocal', version: '2.7.11' }));
 app.post('/api/shutdown', (req, res) => { res.json({ ok: true }); gracefulShutdown(0); });
 app.get('/modelos.json', (req, res) => res.sendFile(MODEL_CATALOG_PATH));
 app.get('/api/model-catalog', (req, res) => { const error = catalogError(); if (error) return res.status(400).json({ ok: false, error }); res.json({ ok: true, catalog: readCatalog(), config: readModelConfig() }); });
@@ -970,8 +1001,41 @@ app.post('/api/resources/:id/:action', (req, res) => {
       installer.error = `Não foi possível iniciar o instalador: ${startupError.message}`;
       installer.message = installer.error;
     } else if (code === 0) {
+      if (action === 'remove') {
+        installer.progress = 100;
+        installer.message = 'Recurso removido.';
+        return;
+      }
+      const verified = resourceStatus(id);
+      if (!verified?.installed) {
+        installer.progress = 99;
+        installer.error = `A instalação terminou, mas ${verified?.label || id} ainda não passou na verificação final.${verified?.missing?.length ? ` Ausente ou inválido: ${verified.missing.join(' | ')}` : ''}`;
+        installer.message = installer.error;
+        installer.log.push(`VERIFICAÇÃO FINAL: ${installer.error}`);
+        return;
+      }
       installer.progress = 100;
-      installer.message = action === 'remove' ? 'Recurso removido.' : 'Concluído.';
+      installer.message = 'Concluído.';
+      if (id === 'chat') {
+        installer.running = true;
+        installer.message = 'Chat instalado. Carregando o modelo na memória…';
+        setImmediate(async () => {
+          try {
+            await ensureChatServer();
+            installer.error = null;
+            installer.progress = 100;
+            installer.message = 'Chat instalado e carregado.';
+            installer.log.push('VERIFICAÇÃO FINAL: Chat detectado e llama-server carregado com sucesso.');
+          } catch (e) {
+            installer.error = `Chat instalado, mas não foi possível carregar o modelo: ${e.message}`;
+            installer.message = installer.error;
+            installer.log.push(`ERRO AO CARREGAR CHAT: ${e.message}`);
+          } finally {
+            installer.running = false;
+            clearResourceCaches();
+          }
+        });
+      }
     } else {
       installer.error = classifyInstallerError(installer.log, code);
       installer.message = installer.error;

@@ -15,6 +15,10 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 
 > **Foco do projeto:** mídia. O chat existe como apoio para prompts e ideias, mas o objetivo principal é gerar, editar e transformar imagens e vídeos localmente.
 
+## Correção 2.7.11 — Validação correta dos executáveis Windows
+
+A validação de `llama-server.exe`, `sd-cli.exe` e outros binários Windows deixou de exigir um tamanho mínimo arbitrário de 64 KB. Alguns executáveis recentes podem ser pequenos porque carregam a implementação principal por DLLs. Agora o projeto valida a estrutura PE real (`MZ`, ponteiro `e_lfanew` e assinatura `PE\0\0`), evitando falsos negativos sem aceitar arquivos que não sejam executáveis PE válidos.
+
 ## Correção 2.7.8 — PowerShell e abertura automática
 
 - Corrigido o conflito com a variável automática somente leitura `$Host` no `resources.ps1`.

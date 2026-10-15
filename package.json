@@ -1,6 +1,6 @@
 {
   "name": "gerador-de-imagens-ia-local",
-  "version": "2.7.9",
+  "version": "2.7.11",
   "private": true,
   "type": "module",
   "scripts": {

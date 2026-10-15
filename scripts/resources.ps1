@@ -48,14 +48,34 @@ function Assert-SafeArchivePath([string]$entry){
   }
 }
 function Test-PEExecutable([string]$file){
+  # Nao use tamanho minimo alto aqui. Alguns binarios recentes sao pequenos
+  # porque carregam a implementacao principal por DLLs ao lado do executavel.
+  # Validamos a estrutura PE real: MZ + ponteiro e_lfanew + assinatura PE\0\0.
+  $fs=$null
   try{
-    if(-not (Test-Path $file)){ return $false }
-    $item=Get-Item $file
-    if($item.Length -lt 65536){ return $false }
-    $fs=[System.IO.File]::OpenRead($file)
-    $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); $fs.Dispose()
-    return ($b1 -eq 0x4D -and $b2 -eq 0x5A)
+    if(-not (Test-Path -LiteralPath $file -PathType Leaf)){ return $false }
+    $item=Get-Item -LiteralPath $file -ErrorAction Stop
+    if($item.Length -lt 68){ return $false }
+
+    $fs=[System.IO.File]::Open($file,[System.IO.FileMode]::Open,[System.IO.FileAccess]::Read,[System.IO.FileShare]::ReadWrite)
+    $dos=New-Object byte[] 64
+    if($fs.Read($dos,0,64) -ne 64){ return $false }
+    if($dos[0] -ne 0x4D -or $dos[1] -ne 0x5A){ return $false }
+
+    $peOffset=[BitConverter]::ToInt32($dos,0x3C)
+    if($peOffset -lt 64 -or $peOffset -gt ($item.Length-4)){ return $false }
+    $fs.Seek($peOffset,[System.IO.SeekOrigin]::Begin) | Out-Null
+    $sig=New-Object byte[] 4
+    if($fs.Read($sig,0,4) -ne 4){ return $false }
+    return ($sig[0] -eq 0x50 -and $sig[1] -eq 0x45 -and $sig[2] -eq 0x00 -and $sig[3] -eq 0x00)
   } catch { return $false }
+  finally { if($fs){ try { $fs.Dispose() } catch {} } }
+}
+function Find-ValidExecutable([string]$base,[string]$name){
+  if(-not (Test-Path $base)){ return $null }
+  return Get-ChildItem $base -Filter $name -File -Recurse -ErrorAction SilentlyContinue |
+    Where-Object { Test-PEExecutable $_.FullName } |
+    Select-Object -First 1
 }
 function Get-RemainingGB([string]$dest,[double]$expectedGB){
   if($expectedGB -le 0){ return 0 }
@@ -377,9 +397,13 @@ function Get-GitHubWindowsAsset([string[]]$Repositories,[string]$kind){
 
 function Ensure-LlamaCpp {
   Ensure-Dir "$Root\runtime\llama"
-  $found=Get-ChildItem "$Root\runtime\llama" -Filter llama-server.exe -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
-  if($found -and (Test-PEExecutable $found.FullName)){ Write-Output "llama.cpp ja instalado: $($found.FullName)"; return }
-  if($found){ Write-Output 'llama-server.exe existente parece invalido; o backend sera baixado novamente.'; Remove-Item $found.FullName -Force -ErrorAction SilentlyContinue }
+  $found=Find-ValidExecutable "$Root\runtime\llama" 'llama-server.exe'
+  if($found){ Write-Output "llama.cpp ja instalado e validado: $($found.FullName)"; return }
+  $invalid=@(Get-ChildItem "$Root\runtime\llama" -Filter llama-server.exe -File -Recurse -ErrorAction SilentlyContinue)
+  if($invalid.Count){
+    Write-Output 'llama-server.exe existente parece invalido; o backend sera baixado novamente.'
+    $invalid | ForEach-Object { Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue }
+  }
 
   P 12 'Baixando llama.cpp para o Chat local'
   $asset=Get-GitHubWindowsAsset @('ggml-org/llama.cpp','ggerganov/llama.cpp') 'llama'
@@ -388,17 +412,21 @@ function Ensure-LlamaCpp {
   }
 
   Expand-Release $asset "$Root\runtime\llama"
-  $found=Get-ChildItem "$Root\runtime\llama" -Filter llama-server.exe -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+  $found=Find-ValidExecutable "$Root\runtime\llama" 'llama-server.exe'
   if(-not $found){
-    throw "O pacote '$($asset.name)' foi extraido, mas llama-server.exe nao foi encontrado."
+    throw "O pacote '$($asset.name)' foi extraido, mas nenhum llama-server.exe valido foi encontrado."
   }
-  Write-Output "llama-server.exe pronto: $($found.FullName)"
+  Write-Output "llama-server.exe pronto e validado: $($found.FullName)"
 }
 function Ensure-SdCpp {
   Ensure-Dir "$Root\runtime\sd"
-  $found=Get-ChildItem "$Root\runtime\sd" -Filter sd-cli.exe -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
-  if($found -and (Test-PEExecutable $found.FullName)){ Write-Host "stable-diffusion.cpp ja instalado: $($found.FullName)" -ForegroundColor Green; return }
-  if($found){ Write-Host 'sd-cli.exe existente parece invalido; o backend sera baixado novamente.' -ForegroundColor Yellow; Remove-Item $found.FullName -Force -ErrorAction SilentlyContinue }
+  $found=Find-ValidExecutable "$Root\runtime\sd" 'sd-cli.exe'
+  if($found){ Write-Host "stable-diffusion.cpp ja instalado e validado: $($found.FullName)" -ForegroundColor Green; return }
+  $invalid=@(Get-ChildItem "$Root\runtime\sd" -Filter sd-cli.exe -File -Recurse -ErrorAction SilentlyContinue)
+  if($invalid.Count){
+    Write-Host 'sd-cli.exe existente parece invalido; o backend sera baixado novamente.' -ForegroundColor Yellow
+    $invalid | ForEach-Object { Remove-Item $_.FullName -Force -ErrorAction SilentlyContinue }
+  }
 
   P 18 'Baixando stable-diffusion.cpp'
   $asset=Get-GitHubWindowsAsset @('leejet/stable-diffusion.cpp') 'sd'
@@ -407,11 +435,11 @@ function Ensure-SdCpp {
   }
 
   Expand-Release $asset "$Root\runtime\sd"
-  $found=Get-ChildItem "$Root\runtime\sd" -Filter sd-cli.exe -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+  $found=Find-ValidExecutable "$Root\runtime\sd" 'sd-cli.exe'
   if(-not $found){
-    throw "O pacote '$($asset.name)' foi extraido, mas sd-cli.exe nao foi encontrado."
+    throw "O pacote '$($asset.name)' foi extraido, mas nenhum sd-cli.exe valido foi encontrado."
   }
-  Write-Host "sd-cli.exe pronto: $($found.FullName)" -ForegroundColor Green
+  Write-Host "sd-cli.exe pronto e validado: $($found.FullName)" -ForegroundColor Green
 }
 function Ensure-FFmpeg {
   $local=Get-ChildItem "$Root\runtime\ffmpeg" -Filter ffmpeg.exe -File -Recurse -ErrorAction SilentlyContinue | Where-Object { Test-PEExecutable $_.FullName } | Select-Object -First 1
