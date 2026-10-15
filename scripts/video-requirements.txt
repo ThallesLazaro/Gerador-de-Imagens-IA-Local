@@ -1,0 +1,13 @@
+# Faixas auditadas para o runner LTX do Gerador de Imagens IA Local.
+# Fixamos as linhas principais para evitar que uma atualização futura quebre o runner.
+torch~=2.14.0
+diffusers~=0.41.0
+transformers~=5.19.0
+accelerate
+safetensors
+sentencepiece
+protobuf
+huggingface_hub
+imageio
+imageio-ffmpeg
+pillow

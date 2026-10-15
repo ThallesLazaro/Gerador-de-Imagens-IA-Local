@@ -15,16 +15,16 @@
       <span class="brand-mark"><img src="/logo-64.png" alt="" width="36" height="36"></span>
       <span class="brand-copy">
         <strong>Gerador de Imagens IA Local</strong>
-        <small id="appStatus">Iniciando…</small>
+        <small id="appStatus" role="status" aria-live="polite">Iniciando…</small>
       </span>
     </a>
     <nav class="top-actions" aria-label="Ferramentas">
-      <button id="newChatBtn" class="top-btn">Novo</button>
-      <button id="promptBtn" class="top-btn">Prompt</button>
-      <button id="queueBtn" class="top-btn">Fila <span id="queueCount" class="badge">0</span></button>
-      <button id="galleryBtn" class="top-btn">Galeria</button>
+      <button type="button" id="newChatBtn" class="top-btn">Novo</button>
+      <button type="button" id="promptBtn" class="top-btn">Prompt</button>
+      <button type="button" id="queueBtn" class="top-btn">Fila <span id="queueCount" class="badge">0</span></button>
+      <button type="button" id="galleryBtn" class="top-btn">Galeria</button>
       <a class="top-btn tutorial-top" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Tutorial</a>
-      <button id="resourcesBtn" class="top-btn accent">Recursos IA</button>
+      <button type="button" id="resourcesBtn" class="top-btn accent">Recursos IA</button>
     </nav>
   </header>
 
@@ -35,21 +35,21 @@
       <p>Escolha um modo abaixo, descreva o resultado e envie.</p>
       <div class="local-badges"><span>IA local</span><span>Sem censura</span><span>Windows</span></div>
       <div class="starter-actions">
-        <button data-start-mode="image">Criar imagem</button>
-        <button data-start-mode="video">Criar vídeo</button>
-        <button data-start-mode="edit">Editar imagem</button>
-        <button data-start-mode="merge">Juntar imagens</button>
+        <button type="button" data-start-mode="image">Criar imagem</button>
+        <button type="button" data-start-mode="video">Criar vídeo</button>
+        <button type="button" data-start-mode="edit">Editar imagem</button>
+        <button type="button" data-start-mode="merge">Juntar imagens</button>
       </div>
       <a class="help-tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Primeira vez aqui? Assista ao tutorial de instalação e uso →</a>
       <small class="developer-credit">Criado por <a href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a> • <a href="https://thall.es" target="_blank" rel="noopener">thall.es</a></small>
     </section>
 
-    <section id="thread" class="thread" aria-live="polite"></section>
+    <section id="thread" class="thread" aria-live="polite" aria-relevant="additions text"></section>
 
     <div id="composerAnchor" class="composer-anchor">
       <div id="attachmentBar" class="attachment-bar" hidden></div>
-      <form id="composer" class="composer">
-        <textarea id="prompt" rows="2" placeholder="Descreva o que você quer criar…"></textarea>
+      <form id="composer" class="composer" aria-label="Criar com IA">
+        <textarea id="prompt" rows="2" aria-label="Prompt" placeholder="Descreva o que você quer criar…"></textarea>
         <div class="composer-bottom">
           <div class="composer-tools">
             <select id="modeSelect" class="mode-select" aria-label="Modo">
@@ -60,25 +60,25 @@
               <option value="chat">Conversar</option>
             </select>
             <label id="uploadBtn" class="mini-btn" hidden>
-              <input id="fileInput" type="file" accept="image/*" multiple hidden>
+              <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" multiple hidden>
               + Imagem
             </label>
-            <button id="optionsBtn" type="button" class="mini-btn">Opções</button>
+            <button type="button" id="optionsBtn" class="mini-btn">Opções</button>
           </div>
           <button id="sendBtn" type="submit" class="send-btn">Gerar</button>
         </div>
       </form>
-      <div id="lockedHint" class="locked-hint" hidden>
+      <div id="lockedHint" class="locked-hint" role="status" aria-live="polite" hidden>
         <span id="lockedText"></span>
-        <button id="lockedAction" class="inline-link">Ativar recurso</button>
+        <button type="button" id="lockedAction" class="inline-link">Ativar recurso</button>
       </div>
     </div>
   </main>
 
-  <dialog id="optionsDialog" class="modal options-modal">
+  <dialog id="optionsDialog" class="modal options-modal" aria-labelledby="optionsDialogTitle">
     <header class="modal-head">
-      <div><strong>Opções</strong><small>Os padrões já vêm equilibrados</small></div>
-      <button data-close="optionsDialog" class="close-btn">×</button>
+      <div><strong id="optionsDialogTitle">Opções</strong><small>Os padrões já vêm equilibrados</small></div>
+      <button data-close="optionsDialog" class="close-btn" type="button" aria-label="Fechar">×</button>
     </header>
     <div class="modal-body options-grid">
       <label><span>Qualidade</span><select id="quality"><option value="fast">Rápida</option><option value="normal" selected>Normal</option><option value="high">Alta</option><option value="max">Máxima</option></select></label>
@@ -87,7 +87,7 @@
       <label><span>Altura</span><input id="height" type="number" min="256" step="32" value="768"></label>
       <label><span>Seed</span><input id="seed" type="text" inputmode="numeric" placeholder="Aleatória"></label>
       <label><span>Temperatura do chat</span><input id="temperature" type="number" min="0" max="2" step="0.1" value="0.7"></label>
-      <label><span>Se faltar memória na GPU</span><select id="memoryRetry"><option value="auto" selected>Tentar automaticamente em resolução menor</option><option value="ask">Só oferecer novas tentativas</option><option value="off">Apenas mostrar o erro</option></select></label>
+      <label><span>Se faltar memória na GPU</span><select id="memoryRetry"><option value="auto" selected>Reduzir automaticamente</option><option value="ask">Só oferecer novas tentativas</option><option value="off">Apenas mostrar o erro</option></select></label>
       <fieldset id="videoOptions" class="video-options" hidden>
         <legend>Vídeo</legend>
         <label><span>Motor</span><select id="videoEngine"><option value="ai">Vídeo IA real</option><option value="standard">Padrão</option><option value="light">Leve</option></select></label>
@@ -98,75 +98,76 @@
     </div>
   </dialog>
 
-  <dialog id="promptDialog" class="modal prompt-modal">
+  <dialog id="promptDialog" class="modal prompt-modal" aria-labelledby="promptDialogTitle">
     <header class="modal-head compact">
-      <div><strong>Prompt do Gerador de Imagens IA Local</strong><small>Instrução usada somente no modo Conversar</small></div>
-      <button data-close="promptDialog" class="close-btn">×</button>
+      <div><strong id="promptDialogTitle">Prompt do Gerador de Imagens IA Local</strong><small>Instrução usada somente no modo Conversar</small></div>
+      <button data-close="promptDialog" class="close-btn" type="button" aria-label="Fechar">×</button>
     </header>
     <div class="modal-body prompt-settings">
-      <textarea id="systemPrompt" rows="4">Você é um assistente local focado em criação de imagens e vídeos. Ajude o usuário a transformar ideias em prompts claros e úteis, sem tornar a conversa desnecessariamente longa.</textarea>
+      <textarea id="systemPrompt" rows="4" aria-label="Prompt do assistente local">Você é um assistente local focado em criação de imagens e vídeos. Ajude o usuário a transformar ideias em prompts claros e úteis, sem tornar a conversa desnecessariamente longa.</textarea>
       <div class="preset-row">
         <button type="button" class="preset-btn" data-preset="cinematic">Cinemático</button>
         <button type="button" class="preset-btn" data-preset="anime">Anime</button>
         <button type="button" class="preset-btn" data-preset="realistic">Realista</button>
         <button type="button" class="preset-btn" data-preset="product">Produto</button>
       </div>
-      <button id="savePromptSettings" class="send-btn full">Salvar</button>
+      <button type="button" id="savePromptSettings" class="send-btn full">Salvar</button>
     </div>
   </dialog>
 
-  <dialog id="resourcesDialog" class="modal resources-modal">
+  <dialog id="resourcesDialog" class="modal resources-modal" aria-labelledby="resourcesDialogTitle">
     <header class="modal-head">
-      <div><strong>Recursos de IA</strong><small>Modelos e motores instalados sob demanda</small></div>
-      <button data-close="resourcesDialog" class="close-btn">×</button>
+      <div><strong id="resourcesDialogTitle">Recursos de IA</strong><small>Modelos e motores instalados sob demanda</small></div>
+      <button data-close="resourcesDialog" class="close-btn" type="button" aria-label="Fechar">×</button>
     </header>
     <div class="resource-toolbar">
       <div class="resource-toolbar-actions">
-        <button id="installAllBtn" class="send-btn">Instalar tudo</button>
-        <button id="reloadModelsBtn" class="mini-btn">Recarregar modelos.json</button>
-        <button id="openModelsBtn" class="mini-btn">Editar modelos.json</button>
+        <button type="button" id="installAllBtn" class="send-btn">Instalar tudo</button>
+        <button type="button" id="reloadModelsBtn" class="mini-btn">Recarregar modelos.json</button>
+        <button type="button" id="openModelsBtn" class="mini-btn">Editar modelos.json</button>
       </div>
-      <span id="resourceSummary"></span>
+      <span id="resourceSummary" role="status" aria-live="polite"></span>
     </div>
-    <div class="catalog-note">As variantes e URLs vêm de <code>modelos.json</code> na raiz do projeto. Você pode editar esse arquivo sem alterar o código.</div>
+    <div id="catalogNote" class="catalog-note">As variantes e URLs vêm de <code>modelos.json</code> na raiz do projeto. Você pode editar esse arquivo sem alterar o código.</div>
     <section id="installerBox" class="installer-box" hidden>
-      <div class="installer-top"><strong id="installerTitle">Instalando…</strong><div class="installer-top-actions"><span id="installerPct" class="installer-pct">0%</span><button id="installerDismiss" class="close-mini" type="button" hidden aria-label="Fechar aviso">×</button></div></div>
-      <div class="progress-track"><div id="installerBar" class="progress-fill"></div></div>
+      <div class="installer-top"><strong id="installerTitle">Instalando…</strong><div class="installer-top-actions"><button id="installerCancel" class="installer-cancel" type="button" hidden>Cancelar</button><span id="installerPct" class="installer-pct">0%</span><button id="installerDismiss" class="close-mini" type="button" hidden aria-label="Fechar aviso">×</button></div></div>
+      <div class="progress-track" role="progressbar" aria-label="Progresso da instalação" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="installerBar" class="progress-fill"></div></div>
       <span id="installerMessage">Preparando…</span>
-      <div class="terminal-head"><span>Log da instalação</span><div class="terminal-tools"><button id="installerToggle" class="inline-link">Mostrar log</button><button id="installerJump" class="inline-link" hidden>Novas linhas ↓</button></div></div>
+      <div class="terminal-head"><span>Log da instalação</span><div class="terminal-tools"><button type="button" id="installerToggle" class="inline-link">Mostrar log</button><button type="button" id="installerJump" class="inline-link" hidden>Novas linhas ↓</button></div></div>
       <pre id="installerLog" class="terminal" hidden></pre>
     </section>
     <div id="resourceGrid" class="resource-grid"></div>
   </dialog>
 
-  <dialog id="galleryDialog" class="modal gallery-modal">
+  <dialog id="galleryDialog" class="modal gallery-modal" aria-labelledby="galleryDialogTitle">
     <header class="modal-head">
-      <div><strong>Galeria</strong><small>Imagens e vídeos salvos neste navegador</small></div>
-      <button data-close="galleryDialog" class="close-btn">×</button>
+      <div><strong id="galleryDialogTitle">Galeria</strong><small>Imagens e vídeos salvos neste computador</small></div>
+      <button data-close="galleryDialog" class="close-btn" type="button" aria-label="Fechar">×</button>
     </header>
     <div class="gallery-toolbar">
-      <input id="gallerySearch" type="search" placeholder="Buscar por prompt…">
-      <select id="galleryFilter"><option value="all">Tudo</option><option value="image">Imagens</option><option value="video">Vídeos</option></select>
+      <input id="gallerySearch" type="search" aria-label="Buscar na galeria" placeholder="Buscar por prompt…">
+      <select id="galleryFilter" aria-label="Filtrar galeria"><option value="all">Tudo</option><option value="image">Imagens</option><option value="video">Vídeos</option></select>
     </div>
     <div id="galleryGrid" class="gallery-grid"></div>
+    <div class="gallery-footer"><button type="button" id="galleryMoreBtn" class="mini-btn" hidden>Carregar mais</button></div>
   </dialog>
 
-  <dialog id="queueDialog" class="modal queue-modal">
+  <dialog id="queueDialog" class="modal queue-modal" aria-labelledby="queueDialogTitle">
     <header class="modal-head">
-      <div><strong>Fila</strong><small>Pedidos aguardando execução</small></div>
-      <button data-close="queueDialog" class="close-btn">×</button>
+      <div><strong id="queueDialogTitle">Fila</strong><small>Pedidos aguardando execução</small></div>
+      <button data-close="queueDialog" class="close-btn" type="button" aria-label="Fechar">×</button>
     </header>
     <div id="queueList" class="queue-list"></div>
   </dialog>
 
-  <dialog id="firstRunDialog" class="modal first-run-modal">
+  <dialog id="firstRunDialog" class="modal first-run-modal" aria-labelledby="firstRunDialogTitle">
     <div class="first-run-mark">IA</div>
-    <h2>Gerador de Imagens IA Local</h2>
+    <h2 id="firstRunDialogTitle">Gerador de Imagens IA Local</h2>
     <p>O núcleo está pronto. Ative somente os motores que quiser usar agora; os demais podem ser instalados depois.</p>
     <div class="first-run-actions">
-      <button id="firstRunResources" class="send-btn">Escolher recursos</button>
+      <button type="button" id="firstRunResources" class="send-btn">Escolher recursos</button>
       <a class="mini-btn tutorial-first" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Assistir tutorial</a>
-      <button id="firstRunSkip" class="mini-btn">Agora não</button>
+      <button type="button" id="firstRunSkip" class="mini-btn">Agora não</button>
     </div>
   </dialog>
 

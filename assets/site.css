@@ -99,3 +99,40 @@ h3{font-size:18px;line-height:1.25;font-weight:700}
   .developer-card img{width:58px;height:58px}
   .developer-card h2{font-size:23px}
 }
+
+/* Auditoria UX 2.7.6: teclado, mobile e preferências do sistema */
+section[id]{scroll-margin-top:88px}
+:where(a,button,summary,[tabindex]):focus-visible{
+  outline:3px solid rgba(25,118,255,.38);
+  outline-offset:3px;
+  border-radius:8px;
+}
+.hero :where(a,button):focus-visible,.section-dark :where(a,button):focus-visible,.site-footer a:focus-visible{
+  outline-color:rgba(150,195,255,.72);
+}
+.faq-list summary:focus-visible{outline-offset:-3px}
+.footer-brand span,.footer-links,.developer-card>div{min-width:0}
+.footer-brand small,.developer-card p{overflow-wrap:anywhere}
+
+@media(max-width:720px){
+  section[id]{scroll-margin-top:18px}
+  .site-nav a{min-height:44px;display:inline-flex;align-items:center}
+  .visual-window{transform:none}
+  .video-card{border-radius:17px}
+  .faq-list summary{min-height:52px}
+}
+
+@media(max-width:480px){
+  h1{font-size:clamp(34px,11vw,44px)}
+  .hero{padding:48px 0 52px}
+  .section{padding:54px 0}
+  .developer-card{flex-direction:column}
+  .footer-brand{align-items:flex-start}
+  .footer-links a{min-height:38px;display:inline-flex;align-items:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .button:hover{transform:none}
+}

@@ -1,32 +1,26 @@
 $ErrorActionPreference='SilentlyContinue'
-$Root=Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 
-function Find-Qwen {
-  for($p=3000;$p -le 3015;$p++){
-    try{
-      $j=Invoke-RestMethod -UseBasicParsing -Uri ("http://127.0.0.1:$p/api/ping") -TimeoutSec 1
-      if($j.app -eq 'GeradorImagensIALocal'){ return $p }
-      if($j.app -eq 'QwenStudioLocal'){ try{Invoke-RestMethod -Method Post -UseBasicParsing -Uri ("http://127.0.0.1:$p/api/shutdown") -TimeoutSec 2|Out-Null}catch{}; Start-Sleep -Milliseconds 350 }
-    } catch {}
-  }
-  return $null
+for($p=3000;$p -le 3015;$p++){
+  try{
+    $j=Invoke-RestMethod -UseBasicParsing -Uri ("http://127.0.0.1:$p/api/ping") -TimeoutSec 1
+    if($j.app -eq 'GeradorImagensIALocal'){
+      $url="http://127.0.0.1:$p"
+      Clear-Host
+      Write-Host ''
+      Write-Host '  Gerador de Imagens IA Local' -ForegroundColor Cyan
+      Write-Host '  Tutorial: ' -NoNewline -ForegroundColor Gray
+      Write-Host 'https://youtu.be/YQbrUucNrRE' -ForegroundColor Green
+      Write-Host '  ----------------------------------------------------------' -ForegroundColor DarkGray
+      Write-Host '   Servidor local ja estava ativo.' -ForegroundColor Yellow
+      Write-Host '   Aplicativo: ' -NoNewline -ForegroundColor Gray
+      Write-Host $url -ForegroundColor Green
+      Start-Process $url
+      exit 20
+    }
+    if($j.app -eq 'QwenStudioLocal'){
+      try{ Invoke-RestMethod -Method Post -Headers @{'X-Gerador-Local'='1'} -UseBasicParsing -Uri ("http://127.0.0.1:$p/api/shutdown") -TimeoutSec 2 | Out-Null }catch{}
+      Start-Sleep -Milliseconds 250
+    }
+  }catch{}
 }
-
-$existing=Find-Qwen
-if($existing){ Start-Process "http://127.0.0.1:$existing"; exit 0 }
-
-$cmd="title Gerador de Imagens IA Local && mode con: cols=70 lines=14 && cls && echo. && echo   Gerador de Imagens IA Local && echo   ---------------------------------------- && echo   Servidor local iniciando... && echo   Pode minimizar esta janela durante o uso. && echo. && node server.js"
-$conhost=Join-Path $env:WINDIR 'System32\conhost.exe'
-if(Test-Path $conhost){
-  Start-Process -FilePath $conhost -ArgumentList 'cmd.exe','/k',$cmd -WorkingDirectory $Root
-} else {
-  Start-Process -FilePath 'cmd.exe' -ArgumentList '/k',$cmd -WorkingDirectory $Root
-}
-
-for($i=0;$i -lt 40;$i++){
-  Start-Sleep -Milliseconds 400
-  $port=Find-Qwen
-  if($port){ Start-Process "http://127.0.0.1:$port"; exit 0 }
-}
-Write-Host 'O Gerador de Imagens IA Local nao respondeu. Execute DIAGNOSTICO.bat.' -ForegroundColor Red
-Read-Host 'Pressione Enter para fechar'
+exit 0

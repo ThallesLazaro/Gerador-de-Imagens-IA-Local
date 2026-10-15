@@ -15,6 +15,15 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 
 > **Foco do projeto:** mídia. O chat existe como apoio para prompts e ideias, mas o objetivo principal é gerar, editar e transformar imagens e vídeos localmente.
 
+## Correção 2.7.8 — PowerShell e abertura automática
+
+- Corrigido o conflito com a variável automática somente leitura `$Host` no `resources.ps1`.
+- O `ABRIR.bat` volta a abrir automaticamente a página do chat assim que o servidor local fica ativo.
+- Se o servidor já estiver ativo, o launcher continua abrindo a página do aplicativo automaticamente.
+
+
+- Corrigido conflito com a variável automática somente leitura `$Host` no `resources.ps1` durante a validação de URLs de download. A variável local agora se chama `$uriHost`.
+
 ## Principais recursos
 
 - **Text-to-Image local** com Qwen Image 2.1 Turbo.
@@ -25,7 +34,7 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 - **Vídeo leve com FFmpeg** para composições e movimentos simples.
 - **Chat local opcional** para ajudar com prompts e ideias.
 - **Galeria local** de imagens e vídeos gerados.
-- **Fila de geração** para organizar vários pedidos.
+- **Fila de geração** para organizar vários pedidos, com limites de segurança para evitar acúmulo excessivo de anexos na memória.
 - **Seed reutilizável** para repetir ou variar resultados.
 - **Reutilizar geração** restaurando prompt, opções e imagens de referência.
 - **Retry automático por falta de memória**, reduzindo a resolução para 75% e depois 50% quando necessário.
@@ -40,6 +49,21 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 - **Reutilização de arquivos compartilhados** quando Chat e Imagem usam o mesmo encoder.
 - **Q4_K como padrão recomendado** para reduzir falhas de memória em mais computadores.
 - Variantes maiores, como Q5_K, Q6_K e Q8_0, continuam disponíveis para quem quiser priorizar qualidade.
+
+### Janelas do Windows
+
+Os arquivos `ABRIR.bat`, `INSTALAR.bat`, `DIAGNOSTICO.bat` e `FECHAR.bat` são os pontos oficiais de entrada no Windows. Eles usam a própria janela do CMD, reduzem o tamanho imediatamente, exibem o nome do projeto, o tutorial oficial e um estado de carregamento antes da ação principal.
+
+> Observação: ao abrir um `.bat` por duplo clique, o Windows cria a janela do console antes da primeira linha do script. Por isso pode existir um flash inicial muito rápido no tamanho padrão do sistema; depois disso, a mesma janela é redimensionada e reutilizada, sem abrir um segundo CMD.
+
+
+## Experiência, responsividade e acessibilidade
+
+Na versão **2.7.9**, a página do chat recebeu uma auditoria dedicada em desktop grande, notebook, telas de pouca altura, tablet, celular, celular de pouca altura e paisagem. As regras responsivas foram consolidadas para evitar conflitos entre componentes.
+
+Os modais de **Opções** e **Prompt** usam altura natural; **Recursos IA**, **Galeria** e **Fila** também crescem apenas conforme o conteúdo e só passam a rolar quando atingem o limite real da tela. O scroll pertence ao próprio modal, evitando áreas internas espremidas ou múltiplas rolagens concorrentes. Composer, anexos, avisos, cards de mídia, erros, fila, logs e barras de ação também foram verificados sem overflow horizontal da página.
+
+Continuam valendo foco visível para teclado, áreas de toque em telas pequenas, suporte à preferência do sistema por menos movimento, barras de progresso com semântica acessível e rótulos nos botões de fechar.
 
 ## Geração de imagens sem censura
 
@@ -182,14 +206,37 @@ O projeto tenta evitar manter recursos pesados carregados sem necessidade:
 - **Imagem:** é executada sob demanda.
 - **Vídeo IA:** é executado sob demanda.
 - **FFmpeg:** é chamado apenas quando necessário.
+- **Resultados finais:** ficam em `outputs/` e não são duplicados como arquivos completos no IndexedDB.
+- **Histórico:** mantém metadados leves, possui backup local no próprio projeto e carrega anexos originais apenas quando uma ação realmente precisa deles.
+- **Referências reutilizáveis:** novas imagens de referência são deduplicadas por SHA-256 no IndexedDB, evitando guardar várias cópias do mesmo arquivo.
+- **Fila:** limita quantidade e volume de anexos para impedir que vários merges grandes ocupem memória indefinidamente.
+- **Temporários:** `uploads/` e `temp/` são limpos na inicialização quando não existe trabalho ativo.
 
 Na aba **Recursos IA**, o usuário pode verificar qual modelo está selecionado e o estado do recurso.
 
 ## Galeria e histórico
 
-A conversa abre diretamente nas mensagens mais recentes. Para não renderizar centenas de imagens e vídeos de uma vez, o histórico usa **carregamento progressivo reverso**: inicialmente entram apenas as 24 mensagens mais recentes e, ao subir até o topo, o lote anterior é carregado automaticamente sem deslocar a leitura. As imagens usam lazy loading, enquanto os arquivos completos continuam armazenados localmente na galeria/IndexedDB.
+A conversa abre diretamente nas mensagens mais recentes. Para não renderizar centenas de imagens e vídeos de uma vez, o histórico usa **carregamento progressivo reverso**: inicialmente entram apenas as 24 mensagens mais recentes e, ao subir até o topo, o lote anterior é carregado automaticamente sem deslocar a leitura. As mensagens fora da área visível também usam otimizações de renderização do navegador.
 
-A galeria guarda as gerações no navegador e permite:
+Os arquivos finais ficam na pasta `outputs/`. O IndexedDB guarda metadados e, quando necessário, as imagens de referência usadas para permitir reutilização. Novas gerações não duplicam o arquivo final inteiro dentro do IndexedDB.
+
+A partir da versão **2.7.4**, a persistência usa camadas de recuperação complementares:
+
+- a conversa continua rápida no `localStorage`, mas também recebe backup em `data/history.json`;
+- cada PNG/MP4 novo recebe um pequeno arquivo `.meta.json` em `outputs/` com prompt, seed, modo, resolução e opções relevantes;
+- ao iniciar e ao abrir a Galeria, o aplicativo reconcilia o IndexedDB com os arquivos físicos;
+- arquivos presentes em `outputs/` sem registro no navegador são recuperados automaticamente;
+- resultados parciais/corrompidos deixados por uma interrupção brusca são ignorados e, quando pertencem ao padrão de saída do projeto, removidos antes de voltarem para a Galeria;
+- registros cujo arquivo físico realmente desapareceu são removidos da Galeria e do histórico;
+- itens antigos que ainda possuem um Blob completo no IndexedDB são preservados mesmo se o arquivo físico tiver sido apagado;
+- referências de entrada iguais são armazenadas uma única vez, com deduplicação por SHA-256 e contagem de uso;
+- a reconciliação recalcula essas contagens e elimina Blobs de referência órfãos que não pertencem mais a nenhuma geração;
+- o backup da conversa é atualizado também ao ocultar/fechar a página e usa uma revisão monotônica para impedir que uma aba ou requisição atrasada sobrescreva um histórico mais novo;
+- o aplicativo solicita armazenamento persistente ao navegador quando esse recurso está disponível.
+
+Se os dados do navegador forem apagados, resultados novos com `.meta.json` podem recuperar também prompt, seed, dimensões, duração/FPS e motor de vídeo. Arquivos antigos sem metadados continuam recuperáveis, mas podem aparecer com informações reduzidas.
+
+A galeria organiza as gerações locais e permite:
 
 - pesquisar por prompt;
 - filtrar imagens e vídeos;
@@ -207,6 +254,7 @@ Gerador-de-Imagens-IA-Local/
 ├── index.html
 ├── projeto.json
 ├── assets/
+├── data/                 # backup local do histórico
 ├── ABRIR.bat
 ├── INSTALAR.bat
 ├── FECHAR.bat
@@ -220,7 +268,10 @@ Gerador-de-Imagens-IA-Local/
 │   ├── style.css
 │   └── app.js
 ├── scripts/
+│   ├── header.ps1
+│   ├── footer.ps1
 │   ├── launcher.ps1
+│   ├── diagnostico.ps1
 │   ├── resources.ps1
 │   └── video_runner.py
 ├── models/
@@ -258,6 +309,7 @@ O projeto é construído com tecnologias simples e locais:
 ## Requisitos
 
 - Windows 10 ou Windows 11;
+- Node.js 18 ou superior (o `INSTALAR.bat` tenta instalar/atualizar automaticamente pelo WinGet quando necessário);
 - espaço em disco suficiente para os modelos escolhidos;
 - memória RAM e GPU compatíveis com a quantização e resolução utilizadas;
 - internet durante a instalação dos backends e modelos.
@@ -276,6 +328,23 @@ Para reduzir consumo, experimente:
 - descarregar o chat antes de uma geração pesada;
 - reduzir o tamanho das imagens de referência.
 
+## Segurança local
+
+O servidor do aplicativo é iniciado somente em `127.0.0.1` e não é exposto para a rede local por padrão. A partir da versão **2.7.5**, o backend também valida `Host` e `Origin`, bloqueia requisições `cross-site` para APIs/arquivos de saída e exige um cabeçalho local específico em qualquer ação que altere estado. Isso reduz ataques de CSRF e DNS rebinding vindos de páginas abertas no navegador.
+
+Outras proteções aplicadas:
+
+- arquivos em `outputs/` só são servidos quando são `.png` ou `.mp4` válidos; arquivos auxiliares `.meta.json` não ficam públicos;
+- uploads aceitam somente PNG, JPEG, WebP, GIF ou BMP, com validação do MIME e da assinatura real do arquivo;
+- caminhos usados pelo backend são confinados à pasta do projeto e tentativas com `../` ou caminho absoluto externo são bloqueadas;
+- URLs personalizadas remotas precisam usar HTTPS; HTTP é aceito somente em `localhost`/`127.0.0.1`;
+- nomes de arquivos/pastas usados pelo instalador são validados antes de download, remoção ou extração;
+- ZIP/7z são inspecionados antes da extração para bloquear caminhos internos com traversal;
+- prompts são enviados aos executáveis como argumentos separados, sem `shell:true` ou concatenação em comandos;
+- a interface recebe CSP, `nosniff`, bloqueio de iframe e políticas de origem adequadas ao uso local.
+
+**Limite desta proteção:** releases e modelos baixados dinamicamente continuam dependendo da segurança das fontes externas usadas no catálogo. O projeto valida formato, tamanho/estrutura e transporte HTTPS, mas não fixa hashes criptográficos de cada release dinâmica. Para máxima reprodutibilidade, uma versão futura pode piná-los por versão e SHA-256.
+
 ## Diagnóstico de erros
 
 Em vez de mostrar apenas um código de saída, a interface tenta reconhecer erros conhecidos e explicar a causa provável.
@@ -284,11 +353,18 @@ Exemplos:
 
 - memória da GPU insuficiente;
 - memória RAM insuficiente;
+- espaço em disco insuficiente;
 - falha Vulkan;
 - modelo incompatível;
-- arquivo ausente;
-- instalação interrompida;
-- falha no ambiente Python de vídeo.
+- arquivo ou runtime ausente;
+- upload inválido ou acima de 60 MB por imagem;
+- resultado PNG/MP4 incompleto ou corrompido;
+- servidor local indisponível;
+- instalação interrompida ou conexão perdida durante a instalação;
+- falha no ambiente Python de vídeo;
+- falha na inicialização ou resposta do Chat local.
+
+A partir da versão 2.7.3, respostas inválidas do backend e arquivos de saída incompletos são rejeitados antes de aparecerem como sucesso. Se a geração terminar corretamente mas o armazenamento local do navegador falhar, o arquivo criado continua disponível na conversa para visualização e download, com um aviso de que ele não pôde ser registrado na Galeria.
 
 O log técnico continua disponível para diagnóstico detalhado.
 
@@ -330,7 +406,9 @@ O projeto prioriza uma experiência visual semelhante a ferramentas modernas de 
 
 ### Vídeo IA baixado, mas ainda aparece como não instalado
 
-A partir da versão 2.5.3, o aplicativo não depende mais de `model_index.json` existir na raiz da pasta do modelo. O instalador grava um marcador `.gerador-video-installed.json` quando o download termina e também reconhece instalações anteriores que já contenham os arquivos reais do modelo. Se você estiver vindo de uma versão anterior, abra **Recursos IA** e use **Reparar / aplicar** uma vez; os arquivos existentes são reutilizados.
+A partir da versão 2.7.2, o aplicativo faz uma validação mais rigorosa do Vídeo IA. Para o recurso aparecer como instalado, ele confirma o ambiente Python 3.11 validado, as bibliotecas do runner LTX, o `model_index.json` do pipeline, arquivos reais de pesos e o repositório associado ao marcador `.gerador-video-installed.json`.
+
+Se você estiver vindo de uma versão anterior e o Vídeo IA aparecer como não instalado, abra **Recursos IA** e use **Reparar / aplicar** uma vez. O modelo já baixado é reaproveitado quando pertence ao mesmo repositório; o processo valida/ajusta apenas o que estiver faltando. As dependências principais do runner ficam controladas em `scripts/video-requirements.txt` para reduzir quebras causadas por atualizações futuras.
 
 
 ## Links oficiais
@@ -347,4 +425,5 @@ O **Gerador de Imagens IA Local** foi criado e é mantido por **<a href="https:/
 
 - Site: <a href="https://thall.es" target="_blank" rel="noopener">https://thall.es</a>
 - GitHub: https://github.com/ThallesLazaro
+
 

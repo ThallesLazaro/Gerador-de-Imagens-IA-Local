@@ -1,6 +1,1 @@
-Gerador de Imagens IA Local 2.6.2
-- Nova imagem oficial de destaque/OG sem crédito do desenvolvedor dentro da arte.
-- A mesma imagem de destaque agora aparece no visual principal da landing page.
-- Links de YouTube e thall.es abrem em nova aba.
-- Links externos permanecem indexáveis: sem nofollow e sem noindex.
-- README mantém autoria nas páginas, sem inserir o nome do desenvolvedor na imagem de destaque.
+2.7.9
