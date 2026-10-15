@@ -1,0 +1,15 @@
+{
+  "nome": "Gerador de Imagens IA Local",
+  "github": "https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local",
+  "site": "https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/",
+  "tutorial": {
+    "titulo": "Gerador de Imagens com IA Local Sem Censura (Instalação Fácil no PC)",
+    "url": "https://youtu.be/YQbrUucNrRE",
+    "thumbnail": "https://i.ytimg.com/vi/YQbrUucNrRE/maxresdefault.jpg"
+  },
+  "desenvolvedor": {
+    "nome": "Thalles Lázaro",
+    "site": "https://thall.es"
+  },
+  "destaque": "Geração de imagens com IA local sem censura no Windows."
+}

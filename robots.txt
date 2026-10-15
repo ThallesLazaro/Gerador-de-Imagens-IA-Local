@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/sitemap.xml

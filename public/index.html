@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Gerador de imagens e vídeos com IA local para Windows, com criação, edição, merge, vídeo IA, galeria, fila e modelos instalados sob demanda.">
+  <meta name="description" content="Gerador de imagens com IA local sem censura para Windows, com criação, edição, merge, vídeo IA, galeria, fila e modelos instalados sob demanda.">
   <title>Gerador de Imagens IA Local</title>
+  <link rel="icon" type="image/png" href="/favicon-32.png">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#top" aria-label="Gerador de Imagens IA Local">
-      <span class="brand-mark">IA</span>
+      <span class="brand-mark"><img src="/logo-64.png" alt="" width="36" height="36"></span>
       <span class="brand-copy">
         <strong>Gerador de Imagens IA Local</strong>
         <small id="appStatus">Iniciando…</small>
@@ -22,6 +23,7 @@
       <button id="promptBtn" class="top-btn">Prompt</button>
       <button id="queueBtn" class="top-btn">Fila <span id="queueCount" class="badge">0</span></button>
       <button id="galleryBtn" class="top-btn">Galeria</button>
+      <a class="top-btn tutorial-top" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Tutorial</a>
       <button id="resourcesBtn" class="top-btn accent">Recursos IA</button>
     </nav>
   </header>
@@ -31,12 +33,15 @@
       <div class="empty-mark">✦</div>
       <h1>O que você quer criar?</h1>
       <p>Escolha um modo abaixo, descreva o resultado e envie.</p>
+      <div class="local-badges"><span>IA local</span><span>Sem censura</span><span>Windows</span></div>
       <div class="starter-actions">
         <button data-start-mode="image">Criar imagem</button>
         <button data-start-mode="video">Criar vídeo</button>
         <button data-start-mode="edit">Editar imagem</button>
         <button data-start-mode="merge">Juntar imagens</button>
       </div>
+      <a class="help-tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Primeira vez aqui? Assista ao tutorial de instalação e uso →</a>
+      <small class="developer-credit">Criado por <a href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a> • <a href="https://thall.es" target="_blank" rel="noopener">thall.es</a></small>
     </section>
 
     <section id="thread" class="thread" aria-live="polite"></section>
@@ -160,6 +165,7 @@
     <p>O núcleo está pronto. Ative somente os motores que quiser usar agora; os demais podem ser instalados depois.</p>
     <div class="first-run-actions">
       <button id="firstRunResources" class="send-btn">Escolher recursos</button>
+      <a class="mini-btn tutorial-first" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Assistir tutorial</a>
       <button id="firstRunSkip" class="mini-btn">Agora não</button>
     </div>
   </dialog>

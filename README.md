@@ -1,6 +1,15 @@
-# Gerador de Imagens IA Local — Imagens e Vídeos com IA no Windows
+# Gerador de Imagens IA Local — Geração de Imagens Sem Censura no Windows
 
-**Gerador de imagens e vídeos com IA local para Windows**, com criação, edição, combinação de imagens, geração de vídeo por IA, galeria, fila, modelos instalados sob demanda e gerenciamento simples pela própria interface.
+![Gerador de Imagens IA Local — geração de imagens sem censura no Windows](assets/og-image.png)
+
+**Gerador de imagens com IA local sem censura para Windows**, com criação, edição, combinação de imagens, geração de vídeo por IA, galeria, fila, modelos instalados sob demanda e gerenciamento simples pela própria interface.
+
+**Desenvolvido por <a href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a>** • <a href="https://thall.es" target="_blank" rel="noopener">thall.es</a>
+
+<a href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/YQbrUucNrRE/maxresdefault.jpg" alt="Assistir ao tutorial: Gerador de Imagens com IA Local Sem Censura (Instalação Fácil no PC)"></a>
+
+**▶ <a href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Assistir ao tutorial completo no YouTube</a>**  
+**GitHub oficial:** https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local
 
 O projeto foi pensado para quem quer usar IA generativa no próprio computador sem precisar montar manualmente vários backends, comandos e pastas de modelos. A instalação do núcleo é simplificada no Windows e os recursos pesados podem ser ativados depois, diretamente pelo navegador.
 
@@ -9,6 +18,7 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 ## Principais recursos
 
 - **Text-to-Image local** com Qwen Image 2.1 Turbo.
+- **Geração de imagens sem censura** quando há uma variante compatível disponível no catálogo.
 - **Edição de imagens com IA** usando uma imagem de referência.
 - **Merge de imagens** com duas ou mais referências.
 - **Text-to-Video e Image-to-Video** com motor de vídeo IA compatível.
@@ -30,6 +40,12 @@ O projeto foi pensado para quem quer usar IA generativa no próprio computador s
 - **Reutilização de arquivos compartilhados** quando Chat e Imagem usam o mesmo encoder.
 - **Q4_K como padrão recomendado** para reduzir falhas de memória em mais computadores.
 - Variantes maiores, como Q5_K, Q6_K e Q8_0, continuam disponíveis para quem quiser priorizar qualidade.
+
+## Geração de imagens sem censura
+
+Um dos diferenciais do projeto é priorizar **modelos sem censura** quando existe uma variante compatível disponível. A interface identifica a variante escolhida em **Recursos IA** e o catálogo `modelos.json` pode ser editado para trocar modelos e URLs sem alterar o código-fonte.
+
+O comportamento final depende do modelo e do motor selecionados. Nem toda família de modelos possui uma variante sem censura equivalente, por isso o projeto não troca ou rotula automaticamente um modelo sem confirmar essa característica no catálogo.
 
 ## Por que este projeto é diferente?
 
@@ -148,7 +164,7 @@ Isso permite trocar URLs, nomes de arquivos, variantes e repositórios sem procu
 O projeto usa o pipeline do Qwen Image com componentes separados quando necessário, incluindo:
 
 - denoiser Qwen Image Turbo;
-- encoder Qwen/AtomicChat configurado no catálogo;
+- encoder Qwen/AtomicChat configurado no catálogo, incluindo variantes sem censura quando disponíveis;
 - projetor visual `mmproj` para referências;
 - VAE.
 
@@ -188,6 +204,9 @@ A galeria guarda as gerações no navegador e permite:
 
 ```text
 Gerador-de-Imagens-IA-Local/
+├── index.html
+├── projeto.json
+├── assets/
 ├── ABRIR.bat
 ├── INSTALAR.bat
 ├── FECHAR.bat
@@ -312,3 +331,20 @@ O projeto prioriza uma experiência visual semelhante a ferramentas modernas de 
 ### Vídeo IA baixado, mas ainda aparece como não instalado
 
 A partir da versão 2.5.3, o aplicativo não depende mais de `model_index.json` existir na raiz da pasta do modelo. O instalador grava um marcador `.gerador-video-installed.json` quando o download termina e também reconhece instalações anteriores que já contenham os arquivos reais do modelo. Se você estiver vindo de uma versão anterior, abra **Recursos IA** e use **Reparar / aplicar** uma vez; os arquivos existentes são reutilizados.
+
+
+## Links oficiais
+
+- **Repositório:** https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local
+- **Tutorial em vídeo:** <a href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">https://youtu.be/YQbrUucNrRE</a>
+
+A landing page pública da raiz usa `projeto.json` para manter os links principais centralizados.
+
+
+## Desenvolvedor
+
+O **Gerador de Imagens IA Local** foi criado e é mantido por **<a href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a>**.
+
+- Site: <a href="https://thall.es" target="_blank" rel="noopener">https://thall.es</a>
+- GitHub: https://github.com/ThallesLazaro
+

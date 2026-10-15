@@ -382,7 +382,7 @@ switch($Resource){
 
     P 28 'Baixando denoiser Qwen Image 2.1 Turbo'
     Download-Resume $diffUrl $diffTarget ([double]$env:QSL_DIFFUSION_SIZE_GB) 28 48
-    P 50 'Verificando encoder AtomicChat Uncensored compartilhado'
+    P 50 'Verificando encoder AtomicChat Sem Censura compartilhado'
     Download-Resume $encUrl $sharedEncoder ([double]$env:QSL_ENCODER_SIZE_GB) 50 70
     P 70 'Baixando projetor visual'
     Download-Resume $mmUrl "$Root\models\shared\$mmName" ([double]$env:QSL_MMPROJ_SIZE_GB) 70 82

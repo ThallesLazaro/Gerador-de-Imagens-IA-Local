@@ -1,6 +1,6 @@
-Gerador de Imagens IA Local 2.5.4
-- Corrige ativação do Vídeo IA quando models/video/LTX-Video/model_index.json já existe.
-- O status do Vídeo IA passa a separar Modelo, Python, model_index.json e FFmpeg externo.
-- model_index.json válido na raiz passa a ser prova direta de modelo instalado.
-- FFmpeg externo deixa de bloquear a ativação do Vídeo IA; o ambiente Python já inclui imageio-ffmpeg.
-- DIAGNOSTICO.bat atualizado para a arquitetura atual.
+Gerador de Imagens IA Local 2.6.2
+- Nova imagem oficial de destaque/OG sem crédito do desenvolvedor dentro da arte.
+- A mesma imagem de destaque agora aparece no visual principal da landing page.
+- Links de YouTube e thall.es abrem em nova aba.
+- Links externos permanecem indexáveis: sem nofollow e sem noindex.
+- README mantém autoria nas páginas, sem inserir o nome do desenvolvedor na imagem de destaque.

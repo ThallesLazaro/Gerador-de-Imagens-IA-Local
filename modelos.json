@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
-  "descricao": "Catálogo editável de modelos do Gerador de Imagens IA Local. O pipeline Qwen Image usa o denoiser Turbo compatível e prioriza o encoder AtomicChat Uncensored. URLs, nomes de arquivos e repo_ids podem ser alterados aqui sem modificar o código-fonte.",
+  "descricao": "Catálogo editável de modelos do Gerador de Imagens IA Local. O pipeline Qwen Image usa o denoiser Turbo compatível e prioriza o encoder AtomicChat Sem Censura. URLs, nomes de arquivos e repo_ids podem ser alterados aqui sem modificar o código-fonte.",
   "recursos": {
     "chat": {
       "defaultVariant": "atomic-q4",
       "variants": [
         {
           "id": "atomic-q4",
-          "label": "AtomicChat Qwen Uncensored AD-Q4_K — padrão recomendado",
-          "description": "Versão AtomicChat Uncensored AD-Q4_K. Menor uso de memória e disco; padrão recomendado para a maioria dos PCs.",
+          "label": "AtomicChat Qwen Sem Censura AD-Q4_K — padrão recomendado",
+          "description": "Versão AtomicChat Sem Censura AD-Q4_K. Menor uso de memória e disco; padrão recomendado para a maioria dos PCs.",
           "uncensored": true,
           "sizeGB": 5.29,
           "url": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q4_K.gguf?download=true",
@@ -16,7 +16,7 @@
         },
         {
           "id": "atomic-q5",
-          "label": "AtomicChat Qwen Uncensored AD-Q5_K — equilíbrio",
+          "label": "AtomicChat Qwen Sem Censura AD-Q5_K — equilíbrio",
           "description": "Equilíbrio entre qualidade, memória e tamanho.",
           "uncensored": true,
           "sizeGB": 6.28,
@@ -25,7 +25,7 @@
         },
         {
           "id": "atomic-q6",
-          "label": "AtomicChat Qwen Uncensored AD-Q6_K — alta qualidade",
+          "label": "AtomicChat Qwen Sem Censura AD-Q6_K — alta qualidade",
           "description": "Mais qualidade, porém com uso maior de memória.",
           "uncensored": true,
           "sizeGB": 7.49,
@@ -34,7 +34,7 @@
         },
         {
           "id": "atomic-q8",
-          "label": "AtomicChat Qwen Uncensored Q8_0 — máxima qualidade",
+          "label": "AtomicChat Qwen Sem Censura Q8_0 — máxima qualidade",
           "description": "Maior uso de memória e disco.",
           "uncensored": true,
           "sizeGB": 8.71,
@@ -55,8 +55,8 @@
       "variants": [
         {
           "id": "atomic-uncensored-q4",
-          "label": "AtomicChat Qwen Image Uncensored AD-Q4_K — padrão recomendado",
-          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q4_K. Menor uso de memória; padrão recomendado para evitar erros na maioria dos PCs.",
+          "label": "AtomicChat Qwen Image Sem Censura AD-Q4_K — padrão recomendado",
+          "description": "Denoiser Turbo + encoder AtomicChat Sem Censura AD-Q4_K. Menor uso de memória; padrão recomendado para evitar erros na maioria dos PCs.",
           "uncensored": true,
           "encoderSizeGB": 5.29,
           "diffusionSizeGB": 4.2,
@@ -73,8 +73,8 @@
         },
         {
           "id": "atomic-uncensored-q5",
-          "label": "AtomicChat Qwen Image Uncensored AD-Q5_K — equilíbrio",
-          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q5_K. Equilíbrio entre qualidade e consumo de memória.",
+          "label": "AtomicChat Qwen Image Sem Censura AD-Q5_K — equilíbrio",
+          "description": "Denoiser Turbo + encoder AtomicChat Sem Censura AD-Q5_K. Equilíbrio entre qualidade e consumo de memória.",
           "uncensored": true,
           "encoderSizeGB": 6.28,
           "diffusionSizeGB": 5.4,
@@ -91,8 +91,8 @@
         },
         {
           "id": "atomic-uncensored-q6",
-          "label": "AtomicChat Qwen Image Uncensored AD-Q6_K — alta qualidade",
-          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q6_K. Mais qualidade, porém com uso maior de memória.",
+          "label": "AtomicChat Qwen Image Sem Censura AD-Q6_K — alta qualidade",
+          "description": "Denoiser Turbo + encoder AtomicChat Sem Censura AD-Q6_K. Mais qualidade, porém com uso maior de memória.",
           "uncensored": true,
           "encoderSizeGB": 7.49,
           "diffusionSizeGB": 6.71,
@@ -109,8 +109,8 @@
         },
         {
           "id": "atomic-uncensored-q8",
-          "label": "AtomicChat Qwen Image Uncensored Q8_0 — máxima qualidade",
-          "description": "Denoiser Turbo + encoder AtomicChat Uncensored Q8_0. Maior uso de memória e disco.",
+          "label": "AtomicChat Qwen Image Sem Censura Q8_0 — máxima qualidade",
+          "description": "Denoiser Turbo + encoder AtomicChat Sem Censura Q8_0. Maior uso de memória e disco.",
           "uncensored": true,
           "encoderSizeGB": 8.71,
           "diffusionSizeGB": 7.59,
@@ -151,7 +151,7 @@
         {
           "id": "ltx",
           "label": "LTX-Video",
-          "description": "Modelo de vídeo para Text-to-Video e Image-to-Video via Diffusers. Não há, neste catálogo atual, uma variante uncensored verificada; adicione uma em modelos.json quando quiser.",
+          "description": "Modelo de vídeo para Text-to-Video e Image-to-Video via Diffusers. Neste catálogo atual, não há uma variante sem censura verificada para esse motor.",
           "repo": "Lightricks/LTX-Video",
           "folder": "LTX-Video",
           "uncensored": false
@@ -159,7 +159,7 @@
         {
           "id": "custom",
           "label": "Repositório Hugging Face personalizado",
-          "description": "Informe um repo_id compatível com o runner de vídeo. Pode ser uma variante alternativa/menos restritiva se for compatível.",
+          "description": "Informe um repo_id compatível com o runner de vídeo. Se existir uma variante sem censura compatível, ela pode ser cadastrada aqui.",
           "custom": true
         }
       ],

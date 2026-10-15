@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Gerador de Imagens com IA Local Sem Censura no PC | Windows</title>
+  <meta name="description" content="Crie, edite e combine imagens com IA local sem censura no Windows. Qwen Image, vídeo IA, modelos configuráveis, galeria, fila e instalação simplificada.">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="googlebot" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta name="author" content="Thalles Lázaro">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="application-name" content="Gerador de Imagens IA Local">
+  <meta name="keywords" content="gerador de imagens ia local, gerador de imagens sem censura, ia local sem censura, gerador de imagem ia, ia local windows, qwen image, gerar imagens no pc, image to image, ltx video, gguf, stable diffusion cpp">
+  <link rel="canonical" href="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/">
+  <link rel="alternate" hreflang="pt-BR" href="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/">
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="assets/logo-192.png">
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Gerador de Imagens IA Local">
+  <meta property="og:title" content="Gerador de Imagens com IA Local Sem Censura no PC">
+  <meta property="og:description" content="Gere, edite e combine imagens com IA local sem censura no Windows, com modelos configuráveis, vídeo IA e instalação simplificada.">
+  <meta property="og:url" content="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/">
+  <meta property="og:image" content="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/assets/og-image.png">
+  <meta property="og:image:secure_url" content="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/assets/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Gerador de Imagens IA Local — geração de imagens sem censura no Windows">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gerador de Imagens com IA Local Sem Censura">
+  <meta name="twitter:description" content="Crie, edite e combine imagens com IA local sem censura no seu PC.">
+  <meta name="twitter:image" content="https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/assets/og-image.png">
+  <meta name="twitter:image:alt" content="Gerador de Imagens IA Local para Windows">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/#website",
+        "url": "https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/",
+        "name": "Gerador de Imagens IA Local",
+        "inLanguage": "pt-BR"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://thalleslazaro.github.io/Gerador-de-Imagens-IA-Local/#software",
+        "name": "Gerador de Imagens IA Local",
+        "url": "https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local",
+        "operatingSystem": "Windows 10, Windows 11",
+        "applicationCategory": "MultimediaApplication",
+        "description": "Aplicativo local para geração, edição e combinação de imagens com IA sem censura e geração de vídeos com modelos configuráveis.",
+        "softwareRequirements": "Windows, espaço em disco para os modelos e hardware compatível com o modelo escolhido",
+        "creator": {
+          "@type": "Person",
+          "name": "Thalles Lázaro",
+          "url": "https://thall.es",
+          "sameAs": ["https://github.com/ThallesLazaro"]
+        }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Gerador de Imagens com IA Local Sem Censura (Instalação Fácil no PC)",
+        "description": "Tutorial de instalação e uso do Gerador de Imagens IA Local no Windows.",
+        "thumbnailUrl": "https://i.ytimg.com/vi/YQbrUucNrRE/maxresdefault.jpg",
+        "contentUrl": "https://youtu.be/YQbrUucNrRE",
+        "inLanguage": "pt-BR"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type":"Question","name":"O que é o Gerador de Imagens IA Local?","acceptedAnswer":{"@type":"Answer","text":"É um projeto para Windows focado em geração, edição e transformação de mídia com motores de IA executados localmente e administrados por uma interface no navegador."}},
+          {"@type":"Question","name":"Funciona sem internet?","acceptedAnswer":{"@type":"Answer","text":"A internet é necessária para baixar dependências e modelos. Depois de instalados, os motores configurados podem executar localmente sem depender de um serviço remoto para cada geração."}},
+          {"@type":"Question","name":"Precisa de placa NVIDIA?","acceptedAnswer":{"@type":"Answer","text":"Não necessariamente. O projeto trabalha com backends que podem usar Vulkan e CPU; compatibilidade e desempenho dependem do modelo, do driver e do hardware."}},
+          {"@type":"Question","name":"Posso trocar os modelos?","acceptedAnswer":{"@type":"Answer","text":"Sim. A interface permite selecionar variantes e o arquivo modelos.json centraliza URLs e opções personalizadas."}},
+          {"@type":"Question","name":"É possível gerar imagens sem censura?","acceptedAnswer":{"@type":"Answer","text":"Sim. O catálogo prioriza variantes de modelos sem censura quando há uma versão compatível disponível. O comportamento final depende do modelo selecionado e da compatibilidade do motor."}},
+          {"@type":"Question","name":"É possível gerar vídeos?","acceptedAnswer":{"@type":"Answer","text":"Sim. O projeto possui fluxo de vídeo IA e também um modo leve baseado em FFmpeg, dependendo dos recursos instalados."}}
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="site-brand" href="#inicio" aria-label="Gerador de Imagens IA Local - início">
+        <img src="assets/logo-64.png" width="42" height="42" alt="">
+        <span>Gerador de Imagens IA Local</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#sem-censura">Sem censura</a>
+        <a href="#instalacao">Como instalar</a>
+        <a href="#tutorial">Tutorial</a>
+        <a href="#faq">FAQ</a>
+        <a data-project-link="github" href="https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section id="inicio" class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">IA local para Windows</p>
+          <h1>Gerador de Imagens com IA Local Sem Censura no seu PC</h1>
+          <p class="lead">Crie, edite e combine imagens com IA sem censura e trabalhe com vídeo usando modelos executados localmente. O projeto reúne os recursos em uma interface simples no navegador e automatiza boa parte da instalação no Windows.</p>
+          <div class="hero-actions">
+            <a class="button primary" data-project-link="github" href="https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local">Ver projeto no GitHub</a>
+            <a class="button secondary" data-project-link="tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Assistir ao tutorial</a>
+          </div>
+          <ul class="hero-points" aria-label="Destaques">
+            <li>Qwen Image e modelos GGUF</li>
+            <li>Edição e combinação de referências</li>
+            <li>Imagem para vídeo e texto para vídeo</li>
+            <li>Modelos sem censura quando disponíveis</li>
+          </ul>
+        </div>
+        <div class="hero-visual" aria-label="Representação do fluxo de criação local">
+          <div class="visual-window">
+            <div class="visual-top"><span></span><span></span><span></span><strong>Gerador local</strong></div>
+            <div class="visual-body">
+              <img class="visual-highlight" src="assets/og-image.png" width="1200" height="630" alt="Gerador de Imagens IA Local sem censura no PC" loading="eager" decoding="async">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="recursos" class="section">
+      <div class="shell">
+        <div class="section-head">
+          <p class="eyebrow">Recursos reais do projeto</p>
+          <h2>Da ideia ao resultado em uma única interface</h2>
+          <p>O foco é mídia. O chat local existe como apoio para prompts e ideias, mas imagens e vídeos são o centro do fluxo.</p>
+        </div>
+        <div class="feature-grid">
+          <article><span>01</span><h3>Texto → Imagem</h3><p>Gere imagens localmente com Qwen Image e variantes configuráveis.</p></article>
+          <article><span>02</span><h3>Editar imagem</h3><p>Envie uma referência e descreva as alterações que deseja aplicar.</p></article>
+          <article><span>03</span><h3>Juntar imagens</h3><p>Use duas ou mais referências para criar uma nova composição.</p></article>
+          <article><span>04</span><h3>Vídeo IA</h3><p>Fluxos de texto para vídeo e imagem para vídeo com motor compatível.</p></article>
+          <article><span>05</span><h3>Galeria e histórico</h3><p>Reutilize resultados, seeds, prompts e referências sem remontar o trabalho.</p></article>
+          <article><span>06</span><h3>Fila e retry inteligente</h3><p>Organize pedidos e reduza automaticamente a resolução quando um erro de memória for reconhecido.</p></article>
+          <article><span>07</span><h3>Modelos sob demanda</h3><p>Instale apenas os recursos desejados e altere variantes sem baixar tudo de uma vez.</p></article>
+          <article><span>08</span><h3><code>modelos.json</code></h3><p>URLs e variantes ficam centralizadas em um catálogo editável, inclusive opções personalizadas.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="sem-censura" class="section freedom-section">
+      <div class="shell freedom-grid">
+        <div class="freedom-copy">
+          <p class="eyebrow">Geração sem censura</p>
+          <h2>Mais liberdade para criar imagens no seu próprio PC</h2>
+          <p>O catálogo do projeto prioriza variantes de modelos <strong>sem censura</strong> quando há uma versão compatível disponível. Você escolhe o modelo e mantém o processamento no seu computador.</p>
+          <ul class="freedom-points">
+            <li>Modelos sem censura identificados diretamente em Recursos IA.</li>
+            <li>Qwen Image local para texto, edição e combinação de imagens.</li>
+            <li>Sem depender de um serviço remoto para cada geração depois que os recursos estão instalados.</li>
+            <li>O comportamento final depende do modelo selecionado e da compatibilidade do motor.</li>
+          </ul>
+        </div>
+        <figure class="freedom-media">
+          <img src="assets/sem-censura-destaque.png" width="1200" height="630" loading="lazy" alt="Gerador de Imagens IA Local destacando geração de imagens sem censura no Windows">
+        </figure>
+      </div>
+    </section>
+
+    <section id="tutorial" class="section section-soft">
+      <div class="shell tutorial-grid">
+        <a class="video-card" data-project-link="tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener" aria-label="Assistir tutorial no YouTube">
+          <img src="https://i.ytimg.com/vi/YQbrUucNrRE/maxresdefault.jpg" alt="Thumbnail do tutorial Gerador de Imagens com IA Local Sem Censura (Instalação Fácil no PC)" loading="lazy">
+          <span class="play" aria-hidden="true">▶</span>
+        </a>
+        <div>
+          <p class="eyebrow">Tutorial em vídeo</p>
+          <h2>Instalação e uso passo a passo</h2>
+          <p>O vídeo mostra como preparar o projeto no Windows, abrir a interface, instalar recursos de IA e começar a gerar. A página usa apenas a thumbnail: ao clicar, o tutorial abre diretamente no YouTube.</p>
+          <a class="text-link" data-project-link="tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Assistir no YouTube →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="instalacao" class="section">
+      <div class="shell install-grid">
+        <div>
+          <p class="eyebrow">Instalação simplificada</p>
+          <h2>Menos etapas manuais no Windows</h2>
+          <p>O núcleo do projeto é pequeno. Os modelos maiores são instalados depois, sob demanda, pela própria interface.</p>
+        </div>
+        <ol class="steps">
+          <li><strong>1</strong><div><b>Baixe o projeto</b><span>Pelo repositório oficial no GitHub.</span></div></li>
+          <li><strong>2</strong><div><b>Execute <code>INSTALAR.bat</code></b><span>O núcleo e as dependências básicas são preparados.</span></div></li>
+          <li><strong>3</strong><div><b>Abra <code>ABRIR.bat</code></b><span>O servidor local inicia e abre a interface no navegador.</span></div></li>
+          <li><strong>4</strong><div><b>Escolha os recursos</b><span>Instale Chat, Qwen Image ou Vídeo IA apenas quando precisar.</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="shell local-grid">
+        <div>
+          <p class="eyebrow">Como funciona</p>
+          <h2>Processamento local, modelos configuráveis</h2>
+          <p>Os motores e modelos instalados são executados no próprio computador. Internet é necessária para baixar dependências e modelos; depois disso, os recursos instalados podem operar localmente conforme o motor usado.</p>
+        </div>
+        <div class="facts">
+          <div><strong>Q4_K</strong><span>Padrão recomendado para reduzir uso de memória.</span></div>
+          <div><strong>Q5 / Q6 / Q8</strong><span>Variantes maiores continuam disponíveis para quem quiser priorizar qualidade.</span></div>
+          <div><strong>Sem censura</strong><span>O catálogo prioriza variantes sem censura quando elas existem e são compatíveis.</span></div>
+          <div><strong>Diagnóstico</strong><span>Erros conhecidos de memória, Vulkan e modelos recebem mensagens mais úteis.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="desenvolvedor" class="section developer-section">
+      <div class="shell developer-card">
+        <img src="assets/logo-192.png" width="72" height="72" alt="Logo do Gerador de Imagens IA Local">
+        <div>
+          <p class="eyebrow">Desenvolvedor</p>
+          <h2>Criado por Thalles Lázaro</h2>
+          <p>Projeto desenvolvido por <strong>Thalles Lázaro</strong>. Mais projetos, ferramentas e informações estão disponíveis em <a href="https://thall.es" target="_blank" rel="noopener">thall.es</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="shell faq-wrap">
+        <div class="section-head left">
+          <p class="eyebrow">Perguntas frequentes</p>
+          <h2>Dúvidas comuns antes de instalar</h2>
+        </div>
+        <div class="faq-list">
+          <details><summary>O que é o Gerador de Imagens IA Local?</summary><p>É um projeto para Windows focado em geração, edição e transformação de mídia com motores de IA executados localmente e administrados por uma interface no navegador.</p></details>
+          <details><summary>Funciona sem internet?</summary><p>A internet é necessária para baixar dependências e modelos. Depois de instalados, os motores configurados podem executar localmente sem depender de um serviço remoto para cada geração.</p></details>
+          <details><summary>Precisa de placa NVIDIA?</summary><p>Não necessariamente. O projeto trabalha com backends que podem usar Vulkan e CPU; compatibilidade e desempenho dependem do modelo, do driver e do hardware.</p></details>
+          <details><summary>Posso trocar os modelos?</summary><p>Sim. A interface permite selecionar variantes e o arquivo <code>modelos.json</code> centraliza URLs e opções personalizadas.</p></details>
+          <details><summary>O que significa geração sem censura no projeto?</summary><p>O catálogo prioriza variantes de modelos sem censura quando há uma versão compatível disponível. Nem todo modelo ou motor possui a mesma variante, por isso a interface identifica claramente o modelo selecionado.</p></details>
+          <details><summary>É possível gerar vídeos?</summary><p>Sim. O projeto possui fluxo de vídeo IA e também um modo leve baseado em FFmpeg, dependendo dos recursos instalados.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div class="footer-brand"><img src="assets/logo-64.png" width="36" height="36" alt=""><span><strong>Gerador de Imagens IA Local</strong><small>Criado por <a href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a> • geração de imagens sem censura no PC.</small></span></div>
+      <div class="footer-links"><a data-project-link="developer" href="https://thall.es" target="_blank" rel="noopener">Thalles Lázaro</a><a data-project-link="github" href="https://github.com/ThallesLazaro/Gerador-de-Imagens-IA-Local">GitHub</a><a data-project-link="tutorial" href="https://youtu.be/YQbrUucNrRE" target="_blank" rel="noopener">Tutorial</a><a href="#inicio">Voltar ao topo</a></div>
+    </div>
+  </footer>
+  <script src="assets/site.js" defer></script>
+</body>
+</html>

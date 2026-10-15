@@ -358,3 +358,39 @@ button,a,.mini-btn,.top-btn,.send-btn,.inline-link,label[for]{cursor:pointer}
 .installer-box .progress-track{margin-top:2px}
 .resource-actions .runtime-chat{border-color:#35577f;background:#16243a;color:#d8e8ff}
 .resource-actions .runtime-chat:hover{background:#1b2d47;border-color:#4b709d}
+
+/* Identidade visual e ajuda */
+.brand-mark{overflow:hidden;background:#101923;border:1px solid #2a4567;padding:0}
+.brand-mark img{display:block;width:100%;height:100%;object-fit:cover;border-radius:11px}
+.tutorial-top{display:inline-flex;align-items:center;justify-content:center}
+.help-tutorial{display:inline-flex;margin-top:4px;padding:7px 10px;border-radius:10px;color:#9fc5ff;background:#111b28;border:1px solid #243a55;font-size:12px}
+.help-tutorial:hover{background:#172536;border-color:#365477;color:#c7ddff}
+.tutorial-first{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+
+@media(max-width:720px){
+  .topbar{display:grid;grid-template-columns:1fr;align-items:stretch;gap:8px;padding:9px 10px}
+  .brand{width:100%}
+  .brand-copy small{max-width:calc(100vw - 84px)}
+  .top-actions{width:100%;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;padding:1px 0 4px;scrollbar-width:none;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
+  .top-actions::-webkit-scrollbar{display:none}
+  .top-actions .top-btn{flex:0 0 auto;white-space:nowrap;scroll-snap-align:start}
+  .message-content{scroll-margin-top:116px}
+}
+
+@media(max-width:560px){
+  .top-actions .top-btn:nth-child(1),.top-actions .top-btn:nth-child(2){display:inline-flex}
+  .top-btn{min-height:38px;padding:8px 10px}
+  .brand-copy strong{font-size:13px}
+  .brand-mark{width:34px;height:34px;flex-basis:34px}
+  .page{width:min(100% - 14px,var(--max))}
+  .empty-state{margin-top:16px}
+  .help-tutorial{width:100%;justify-content:center;text-align:center}
+  .message-content{scroll-margin-top:122px}
+}
+
+.local-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:2px 0 4px}
+.local-badges span{display:inline-flex;align-items:center;min-height:26px;padding:0 9px;border-radius:999px;border:1px solid #31445c;background:#111c28;color:#bdd2e8;font-size:11px}
+.local-badges span:nth-child(2){border-color:#416247;background:#15251a;color:#b9ebb4}
+.developer-credit{display:block;margin-top:4px;color:var(--muted);font-size:11px}
+.developer-credit a{color:#a7c9f5;text-decoration:none}
+.developer-credit a:hover{text-decoration:underline}

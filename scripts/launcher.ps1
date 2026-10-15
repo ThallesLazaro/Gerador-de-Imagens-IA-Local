@@ -15,7 +15,7 @@ function Find-Qwen {
 $existing=Find-Qwen
 if($existing){ Start-Process "http://127.0.0.1:$existing"; exit 0 }
 
-$cmd="title Gerador de Imagens IA Local && mode con: cols=44 lines=8 && cls && echo Gerador de Imagens IA Local && echo. && echo Servidor local ativo. && echo A interface abre no navegador. && echo Pode minimizar esta janela. && echo Fechar encerra o servidor. && echo. && node server.js"
+$cmd="title Gerador de Imagens IA Local && mode con: cols=70 lines=14 && cls && echo. && echo   Gerador de Imagens IA Local && echo   ---------------------------------------- && echo   Servidor local iniciando... && echo   Pode minimizar esta janela durante o uso. && echo. && node server.js"
 $conhost=Join-Path $env:WINDIR 'System32\conhost.exe'
 if(Test-Path $conhost){
   Start-Process -FilePath $conhost -ArgumentList 'cmd.exe','/k',$cmd -WorkingDirectory $Root

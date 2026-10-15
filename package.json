@@ -1,6 +1,6 @@
 {
   "name": "gerador-de-imagens-ia-local",
-  "version": "2.5.4",
+  "version": "2.6.2",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "express": "^5.1.0",
     "multer": "^2.0.2"
   },
-  "description": "Gerador de imagens e vídeos com IA local para Windows, com Qwen Image, edição, merge, vídeo IA, galeria, fila, modelos sob demanda e instalação simplificada.",
+  "description": "Gerador de imagens com IA local sem censura para Windows, com Qwen Image, edição, merge, vídeo IA, galeria, fila, modelos sob demanda e instalação simplificada.",
   "keywords": [
     "gerador de imagens ia",
     "gerador de imagem ia",
@@ -23,6 +23,12 @@
     "windows",
     "offline ai",
     "gguf",
-    "stable-diffusion.cpp"
-  ]
+    "stable-diffusion.cpp",
+    "gerador de imagens sem censura",
+    "ia local sem censura"
+  ],
+  "author": {
+    "name": "Thalles Lázaro",
+    "url": "https://thall.es"
+  }
 }

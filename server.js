@@ -413,7 +413,7 @@ async function ensureChatServer() {
   throw new Error('O modelo de chat não ficou pronto a tempo. Confira Recursos IA > Chat.');
 }
 
-app.get('/api/ping', (req, res) => res.json({ ok: true, app: 'GeradorImagensIALocal', version: '2.5.1' }));
+app.get('/api/ping', (req, res) => res.json({ ok: true, app: 'GeradorImagensIALocal', version: '2.6.2' }));
 app.post('/api/shutdown', (req, res) => { res.json({ ok: true }); setTimeout(() => { try { chatProc?.kill('SIGTERM'); } catch {} process.exit(0); }, 250); });
 app.get('/modelos.json', (req, res) => res.sendFile(MODEL_CATALOG_PATH));
 app.get('/api/model-catalog', (req, res) => res.json({ ok: true, catalog: readCatalog(), config: readModelConfig() }));
@@ -662,9 +662,13 @@ async function start() {
   while (port <= cfg.portMax && !(await portFree(port))) port++;
   if (port > cfg.portMax) { console.error(`Gerador de Imagens IA Local: nenhuma porta livre entre ${cfg.port} e ${cfg.portMax}.`); process.exit(1); }
   const server = app.listen(port, '127.0.0.1', () => {
-    console.log('Gerador de Imagens IA Local');
-    console.log(`Acesse: http://127.0.0.1:${port}`);
-    console.log('Feche esta janela para encerrar o servidor.');
+    const green = '\x1b[92m';
+    const reset = '\x1b[0m';
+    console.log('   Servidor local ativo.');
+    console.log(`   Aplicativo: ${green}http://127.0.0.1:${port}${reset}`);
+    console.log(`   Tutorial:  ${green}https://youtu.be/YQbrUucNrRE${reset}`);
+    console.log('');
+    console.log('   Fechar esta janela encerra o servidor.');
   });
   server.on('error', e => { console.error(e.code === 'EADDRINUSE' ? 'A porta foi ocupada antes da inicialização. Abra novamente o ABRIR.bat.' : e.message); process.exit(1); });
 }
