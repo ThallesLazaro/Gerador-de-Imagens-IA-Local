@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Gerador de imagens e vídeos com IA local para Windows, com criação, edição, merge, vídeo IA, galeria, fila e modelos instalados sob demanda.">
+  <title>Gerador de Imagens IA Local</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Gerador de Imagens IA Local">
+      <span class="brand-mark">IA</span>
+      <span class="brand-copy">
+        <strong>Gerador de Imagens IA Local</strong>
+        <small id="appStatus">Iniciando…</small>
+      </span>
+    </a>
+    <nav class="top-actions" aria-label="Ferramentas">
+      <button id="newChatBtn" class="top-btn">Novo</button>
+      <button id="promptBtn" class="top-btn">Prompt</button>
+      <button id="queueBtn" class="top-btn">Fila <span id="queueCount" class="badge">0</span></button>
+      <button id="galleryBtn" class="top-btn">Galeria</button>
+      <button id="resourcesBtn" class="top-btn accent">Recursos IA</button>
+    </nav>
+  </header>
+
+  <main id="top" class="page">
+    <section id="emptyState" class="empty-state">
+      <div class="empty-mark">✦</div>
+      <h1>O que você quer criar?</h1>
+      <p>Escolha um modo abaixo, descreva o resultado e envie.</p>
+      <div class="starter-actions">
+        <button data-start-mode="image">Criar imagem</button>
+        <button data-start-mode="video">Criar vídeo</button>
+        <button data-start-mode="edit">Editar imagem</button>
+        <button data-start-mode="merge">Juntar imagens</button>
+      </div>
+    </section>
+
+    <section id="thread" class="thread" aria-live="polite"></section>
+
+    <div id="composerAnchor" class="composer-anchor">
+      <div id="attachmentBar" class="attachment-bar" hidden></div>
+      <form id="composer" class="composer">
+        <textarea id="prompt" rows="2" placeholder="Descreva o que você quer criar…"></textarea>
+        <div class="composer-bottom">
+          <div class="composer-tools">
+            <select id="modeSelect" class="mode-select" aria-label="Modo">
+              <option value="image">Imagem</option>
+              <option value="video">Vídeo</option>
+              <option value="edit">Editar</option>
+              <option value="merge">Juntar</option>
+              <option value="chat">Conversar</option>
+            </select>
+            <label id="uploadBtn" class="mini-btn" hidden>
+              <input id="fileInput" type="file" accept="image/*" multiple hidden>
+              + Imagem
+            </label>
+            <button id="optionsBtn" type="button" class="mini-btn">Opções</button>
+          </div>
+          <button id="sendBtn" type="submit" class="send-btn">Gerar</button>
+        </div>
+      </form>
+      <div id="lockedHint" class="locked-hint" hidden>
+        <span id="lockedText"></span>
+        <button id="lockedAction" class="inline-link">Ativar recurso</button>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="optionsDialog" class="modal options-modal">
+    <header class="modal-head">
+      <div><strong>Opções</strong><small>Os padrões já vêm equilibrados</small></div>
+      <button data-close="optionsDialog" class="close-btn">×</button>
+    </header>
+    <div class="modal-body options-grid">
+      <label><span>Qualidade</span><select id="quality"><option value="fast">Rápida</option><option value="normal" selected>Normal</option><option value="high">Alta</option><option value="max">Máxima</option></select></label>
+      <label><span>Proporção</span><select id="ratio"><option value="1:1">1:1</option><option value="16:9">16:9</option><option value="9:16">9:16</option><option value="4:3">4:3</option><option value="3:4">3:4</option><option value="custom">Personalizado</option></select></label>
+      <label><span>Largura</span><input id="width" type="number" min="256" step="32" value="768"></label>
+      <label><span>Altura</span><input id="height" type="number" min="256" step="32" value="768"></label>
+      <label><span>Seed</span><input id="seed" type="text" inputmode="numeric" placeholder="Aleatória"></label>
+      <label><span>Temperatura do chat</span><input id="temperature" type="number" min="0" max="2" step="0.1" value="0.7"></label>
+      <label><span>Se faltar memória na GPU</span><select id="memoryRetry"><option value="auto" selected>Tentar automaticamente em resolução menor</option><option value="ask">Só oferecer novas tentativas</option><option value="off">Apenas mostrar o erro</option></select></label>
+      <fieldset id="videoOptions" class="video-options" hidden>
+        <legend>Vídeo</legend>
+        <label><span>Motor</span><select id="videoEngine"><option value="ai">Vídeo IA real</option><option value="standard">Padrão</option><option value="light">Leve</option></select></label>
+        <label><span>Duração</span><input id="duration" type="number" min="2" max="20" step="1" value="6"></label>
+        <label><span>FPS</span><select id="fps"><option>15</option><option>18</option><option selected>24</option><option>30</option><option>60</option></select></label>
+        <label><span>Movimento leve</span><select id="motion"><option value="cinematic">Cinemático</option><option value="pan">Pan lateral</option></select></label>
+      </fieldset>
+    </div>
+  </dialog>
+
+  <dialog id="promptDialog" class="modal prompt-modal">
+    <header class="modal-head compact">
+      <div><strong>Prompt do Gerador de Imagens IA Local</strong><small>Instrução usada somente no modo Conversar</small></div>
+      <button data-close="promptDialog" class="close-btn">×</button>
+    </header>
+    <div class="modal-body prompt-settings">
+      <textarea id="systemPrompt" rows="4">Você é um assistente local focado em criação de imagens e vídeos. Ajude o usuário a transformar ideias em prompts claros e úteis, sem tornar a conversa desnecessariamente longa.</textarea>
+      <div class="preset-row">
+        <button type="button" class="preset-btn" data-preset="cinematic">Cinemático</button>
+        <button type="button" class="preset-btn" data-preset="anime">Anime</button>
+        <button type="button" class="preset-btn" data-preset="realistic">Realista</button>
+        <button type="button" class="preset-btn" data-preset="product">Produto</button>
+      </div>
+      <button id="savePromptSettings" class="send-btn full">Salvar</button>
+    </div>
+  </dialog>
+
+  <dialog id="resourcesDialog" class="modal resources-modal">
+    <header class="modal-head">
+      <div><strong>Recursos de IA</strong><small>Modelos e motores instalados sob demanda</small></div>
+      <button data-close="resourcesDialog" class="close-btn">×</button>
+    </header>
+    <div class="resource-toolbar">
+      <div class="resource-toolbar-actions">
+        <button id="installAllBtn" class="send-btn">Instalar tudo</button>
+        <button id="reloadModelsBtn" class="mini-btn">Recarregar modelos.json</button>
+        <button id="openModelsBtn" class="mini-btn">Editar modelos.json</button>
+      </div>
+      <span id="resourceSummary"></span>
+    </div>
+    <div class="catalog-note">As variantes e URLs vêm de <code>modelos.json</code> na raiz do projeto. Você pode editar esse arquivo sem alterar o código.</div>
+    <section id="installerBox" class="installer-box" hidden>
+      <div class="installer-top"><strong id="installerTitle">Instalando…</strong><div class="installer-top-actions"><span id="installerPct" class="installer-pct">0%</span><button id="installerDismiss" class="close-mini" type="button" hidden aria-label="Fechar aviso">×</button></div></div>
+      <div class="progress-track"><div id="installerBar" class="progress-fill"></div></div>
+      <span id="installerMessage">Preparando…</span>
+      <div class="terminal-head"><span>Log da instalação</span><div class="terminal-tools"><button id="installerToggle" class="inline-link">Mostrar log</button><button id="installerJump" class="inline-link" hidden>Novas linhas ↓</button></div></div>
+      <pre id="installerLog" class="terminal" hidden></pre>
+    </section>
+    <div id="resourceGrid" class="resource-grid"></div>
+  </dialog>
+
+  <dialog id="galleryDialog" class="modal gallery-modal">
+    <header class="modal-head">
+      <div><strong>Galeria</strong><small>Imagens e vídeos salvos neste navegador</small></div>
+      <button data-close="galleryDialog" class="close-btn">×</button>
+    </header>
+    <div class="gallery-toolbar">
+      <input id="gallerySearch" type="search" placeholder="Buscar por prompt…">
+      <select id="galleryFilter"><option value="all">Tudo</option><option value="image">Imagens</option><option value="video">Vídeos</option></select>
+    </div>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </dialog>
+
+  <dialog id="queueDialog" class="modal queue-modal">
+    <header class="modal-head">
+      <div><strong>Fila</strong><small>Pedidos aguardando execução</small></div>
+      <button data-close="queueDialog" class="close-btn">×</button>
+    </header>
+    <div id="queueList" class="queue-list"></div>
+  </dialog>
+
+  <dialog id="firstRunDialog" class="modal first-run-modal">
+    <div class="first-run-mark">IA</div>
+    <h2>Gerador de Imagens IA Local</h2>
+    <p>O núcleo está pronto. Ative somente os motores que quiser usar agora; os demais podem ser instalados depois.</p>
+    <div class="first-run-actions">
+      <button id="firstRunResources" class="send-btn">Escolher recursos</button>
+      <button id="firstRunSkip" class="mini-btn">Agora não</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

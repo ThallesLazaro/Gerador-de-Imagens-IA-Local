@@ -1,0 +1,40 @@
+{
+  "chat": {
+    "label": "Chat Qwen local",
+    "category": "Conversa",
+    "description": "Assistente local opcional para apoiar prompts, ideias e fluxos de mídia.",
+    "sizeHint": "~5–9 GB conforme a variante",
+    "installScript": "chat",
+    "requiredCommands": [
+      "llama-server.exe"
+    ]
+  },
+  "image": {
+    "label": "Qwen Image 2.1 Turbo",
+    "category": "Imagem",
+    "description": "Geração, edição e combinação de imagens. Este é um dos motores principais do Studio.",
+    "sizeHint": "~12–20 GB conforme a variante",
+    "installScript": "image",
+    "requiredCommands": [
+      "sd-cli.exe"
+    ]
+  },
+  "videoLight": {
+    "label": "Vídeo leve",
+    "category": "Vídeo",
+    "description": "Composição rápida e pós-processamento local com FFmpeg.",
+    "sizeHint": "~250 MB",
+    "installScript": "video-light",
+    "requiredCommands": [
+      "ffmpeg.exe"
+    ]
+  },
+  "videoAI": {
+    "label": "Vídeo IA",
+    "category": "Vídeo",
+    "description": "Text-to-Video e Image-to-Video reais via Python + Diffusers. O modelo é ativado quando o pipeline local e o ambiente Python estão prontos.",
+    "sizeHint": "muitos GB",
+    "installScript": "video-ai",
+    "requiredCommands": []
+  }
+}

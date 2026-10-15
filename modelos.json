@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "descricao": "Catálogo editável de modelos do Gerador de Imagens IA Local. O pipeline Qwen Image usa o denoiser Turbo compatível e prioriza o encoder AtomicChat Uncensored. URLs, nomes de arquivos e repo_ids podem ser alterados aqui sem modificar o código-fonte.",
+  "recursos": {
+    "chat": {
+      "defaultVariant": "atomic-q4",
+      "variants": [
+        {
+          "id": "atomic-q4",
+          "label": "AtomicChat Qwen Uncensored AD-Q4_K — padrão recomendado",
+          "description": "Versão AtomicChat Uncensored AD-Q4_K. Menor uso de memória e disco; padrão recomendado para a maioria dos PCs.",
+          "uncensored": true,
+          "sizeGB": 5.29,
+          "url": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q4_K.gguf?download=true",
+          "filename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q4_K.gguf"
+        },
+        {
+          "id": "atomic-q5",
+          "label": "AtomicChat Qwen Uncensored AD-Q5_K — equilíbrio",
+          "description": "Equilíbrio entre qualidade, memória e tamanho.",
+          "uncensored": true,
+          "sizeGB": 6.28,
+          "url": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q5_K.gguf?download=true",
+          "filename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q5_K.gguf"
+        },
+        {
+          "id": "atomic-q6",
+          "label": "AtomicChat Qwen Uncensored AD-Q6_K — alta qualidade",
+          "description": "Mais qualidade, porém com uso maior de memória.",
+          "uncensored": true,
+          "sizeGB": 7.49,
+          "url": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q6_K.gguf?download=true",
+          "filename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q6_K.gguf"
+        },
+        {
+          "id": "atomic-q8",
+          "label": "AtomicChat Qwen Uncensored Q8_0 — máxima qualidade",
+          "description": "Maior uso de memória e disco.",
+          "uncensored": true,
+          "sizeGB": 8.71,
+          "url": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-Q8_0.gguf?download=true",
+          "filename": "Qwen-Image-2.1-Turbo-Uncensored-Q8_0.gguf"
+        },
+        {
+          "id": "custom",
+          "label": "URL personalizada",
+          "description": "Informe uma URL direta para um GGUF compatível com llama.cpp.",
+          "custom": true
+        }
+      ],
+      "preferUncensored": true
+    },
+    "image": {
+      "defaultVariant": "atomic-uncensored-q4",
+      "variants": [
+        {
+          "id": "atomic-uncensored-q4",
+          "label": "AtomicChat Qwen Image Uncensored AD-Q4_K — padrão recomendado",
+          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q4_K. Menor uso de memória; padrão recomendado para evitar erros na maioria dos PCs.",
+          "uncensored": true,
+          "encoderSizeGB": 5.29,
+          "diffusionSizeGB": 4.2,
+          "diffusionUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-GGUF/resolve/main/Qwen-Image-2.1-Turbo-AD-Q4_K.gguf?download=true",
+          "diffusionFilename": "Qwen-Image-2.1-Turbo-AD-Q4_K.gguf",
+          "encoderUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q4_K.gguf?download=true",
+          "encoderFilename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q4_K.gguf",
+          "mmprojUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf?download=true",
+          "mmprojFilename": "mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf",
+          "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors?download=true",
+          "vaeFilename": "qwen_image_2.1_vae_bf16.safetensors",
+          "mmprojSizeGB": 1.16,
+          "vaeSizeGB": 0.68
+        },
+        {
+          "id": "atomic-uncensored-q5",
+          "label": "AtomicChat Qwen Image Uncensored AD-Q5_K — equilíbrio",
+          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q5_K. Equilíbrio entre qualidade e consumo de memória.",
+          "uncensored": true,
+          "encoderSizeGB": 6.28,
+          "diffusionSizeGB": 5.4,
+          "diffusionUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-GGUF/resolve/main/Qwen-Image-2.1-Turbo-AD-Q5_K.gguf?download=true",
+          "diffusionFilename": "Qwen-Image-2.1-Turbo-AD-Q5_K.gguf",
+          "encoderUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q5_K.gguf?download=true",
+          "encoderFilename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q5_K.gguf",
+          "mmprojUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf?download=true",
+          "mmprojFilename": "mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf",
+          "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors?download=true",
+          "vaeFilename": "qwen_image_2.1_vae_bf16.safetensors",
+          "mmprojSizeGB": 1.16,
+          "vaeSizeGB": 0.68
+        },
+        {
+          "id": "atomic-uncensored-q6",
+          "label": "AtomicChat Qwen Image Uncensored AD-Q6_K — alta qualidade",
+          "description": "Denoiser Turbo + encoder AtomicChat Uncensored AD-Q6_K. Mais qualidade, porém com uso maior de memória.",
+          "uncensored": true,
+          "encoderSizeGB": 7.49,
+          "diffusionSizeGB": 6.71,
+          "diffusionUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-GGUF/resolve/main/Qwen-Image-2.1-Turbo-AD-Q6_K.gguf?download=true",
+          "diffusionFilename": "Qwen-Image-2.1-Turbo-AD-Q6_K.gguf",
+          "encoderUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-AD-Q6_K.gguf?download=true",
+          "encoderFilename": "Qwen-Image-2.1-Turbo-Uncensored-AD-Q6_K.gguf",
+          "mmprojUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf?download=true",
+          "mmprojFilename": "mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf",
+          "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors?download=true",
+          "vaeFilename": "qwen_image_2.1_vae_bf16.safetensors",
+          "mmprojSizeGB": 1.16,
+          "vaeSizeGB": 0.68
+        },
+        {
+          "id": "atomic-uncensored-q8",
+          "label": "AtomicChat Qwen Image Uncensored Q8_0 — máxima qualidade",
+          "description": "Denoiser Turbo + encoder AtomicChat Uncensored Q8_0. Maior uso de memória e disco.",
+          "uncensored": true,
+          "encoderSizeGB": 8.71,
+          "diffusionSizeGB": 7.59,
+          "diffusionUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Q8_0.gguf?download=true",
+          "diffusionFilename": "Qwen-Image-2.1-Turbo-Q8_0.gguf",
+          "encoderUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/Qwen-Image-2.1-Turbo-Uncensored-Q8_0.gguf?download=true",
+          "encoderFilename": "Qwen-Image-2.1-Turbo-Uncensored-Q8_0.gguf",
+          "mmprojUrl": "https://huggingface.co/AtomicChat/Qwen-Image-2.1-Turbo-Uncensored-GGUF/resolve/main/mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf?download=true",
+          "mmprojFilename": "mmproj-Qwen-Image-2.1-Turbo-Uncensored-F16.gguf",
+          "vaeUrl": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors?download=true",
+          "vaeFilename": "qwen_image_2.1_vae_bf16.safetensors",
+          "mmprojSizeGB": 1.16,
+          "vaeSizeGB": 0.68
+        },
+        {
+          "id": "custom",
+          "label": "URLs personalizadas",
+          "description": "Informe URLs diretas para denoiser, encoder, mmproj e VAE compatíveis.",
+          "custom": true
+        }
+      ],
+      "preferUncensored": true
+    },
+    "videoLight": {
+      "defaultVariant": "ffmpeg",
+      "variants": [
+        {
+          "id": "ffmpeg",
+          "label": "FFmpeg local",
+          "description": "Modo leve para composição de vídeo e pós-processamento."
+        }
+      ],
+      "preferUncensored": false
+    },
+    "videoAI": {
+      "defaultVariant": "ltx",
+      "variants": [
+        {
+          "id": "ltx",
+          "label": "LTX-Video",
+          "description": "Modelo de vídeo para Text-to-Video e Image-to-Video via Diffusers. Não há, neste catálogo atual, uma variante uncensored verificada; adicione uma em modelos.json quando quiser.",
+          "repo": "Lightricks/LTX-Video",
+          "folder": "LTX-Video",
+          "uncensored": false
+        },
+        {
+          "id": "custom",
+          "label": "Repositório Hugging Face personalizado",
+          "description": "Informe um repo_id compatível com o runner de vídeo. Pode ser uma variante alternativa/menos restritiva se for compatível.",
+          "custom": true
+        }
+      ],
+      "preferUncensored": true
+    }
+  }
+}

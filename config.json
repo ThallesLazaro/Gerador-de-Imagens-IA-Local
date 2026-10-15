@@ -1,0 +1,9 @@
+{
+  "port": 3000,
+  "portMax": 3015,
+  "chatPort": 8091,
+  "defaults": {
+    "image": {"width":768,"height":768,"steps":8,"cfg":1.0,"sampler":"euler","sigmas":"qwen-image-2.1-turbo"},
+    "video": {"width":640,"height":384,"duration":6,"fps":24}
+  }
+}

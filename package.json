@@ -1,0 +1,28 @@
+{
+  "name": "gerador-de-imagens-ia-local",
+  "version": "2.5.4",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  },
+  "description": "Gerador de imagens e vídeos com IA local para Windows, com Qwen Image, edição, merge, vídeo IA, galeria, fila, modelos sob demanda e instalação simplificada.",
+  "keywords": [
+    "gerador de imagens ia",
+    "gerador de imagem ia",
+    "ia local",
+    "inteligencia artificial local",
+    "qwen image",
+    "text to image",
+    "image to image",
+    "gerador de video ia",
+    "windows",
+    "offline ai",
+    "gguf",
+    "stable-diffusion.cpp"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "chat": {
+    "variant": "atomic-q4"
+  },
+  "image": {
+    "variant": "atomic-uncensored-q4"
+  },
+  "videoAI": {
+    "variant": "ltx"
+  },
+  "videoLight": {
+    "variant": "ffmpeg"
+  }
+}
