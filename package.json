@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "express": "5.1.0",
-    "multer": "2.0.2"
+    "multer": "2.4.0"
   },
   "description": "Gerador de imagens com IA local sem censura para Windows, com Qwen Image, edição, merge, vídeo IA, galeria, fila, modelos sob demanda e instalação simplificada.",
   "keywords": [
